@@ -1,19 +1,27 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { Send, UploadCloud } from "lucide-react";
+import { Send, UploadCloud, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { submitRegistration } from "@/lib/actions/public";
 
 export const ParticipantRegistrationForm: React.FC = () => {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
     
-    // Simulate API call
-    setTimeout(() => {
+    const formData = new FormData(e.currentTarget);
+    formData.append("SubmissionType", "Participant");
+
+    const result = await submitRegistration(formData);
+    
+    if (result.success) {
       setStatus("success");
-    }, 1500);
+    } else {
+      console.error(result.error);
+      setStatus("error");
+    }
   };
 
   if (status === "success") {

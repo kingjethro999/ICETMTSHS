@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { submitRegistration } from "@/lib/actions/public";
+import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 
 interface FormData {
   fullName: string;
@@ -63,18 +65,58 @@ export const SubmissionForm: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("[SubmissionForm] Attempting to submit form...");
+    setErrorMessage(null);
     
     if (validate()) {
-      console.log("[SubmissionForm] Form validated successfully", { formData, files });
-      // In a real app, we would send this data to an API
-      alert("Form submitted successfully! (Demo)");
-    } else {
-      console.warn("[SubmissionForm] Form validation failed", errors);
+      setStatus("loading");
+      const formDataToSend = new FormData(e.currentTarget);
+      formDataToSend.append("SubmissionType", "Presenter");
+      
+      // Map component field names to what server action expects
+      formDataToSend.set("FullName", formData.fullName);
+      formDataToSend.set("Email", formData.email);
+      formDataToSend.set("Affiliation", formData.affiliation);
+      formDataToSend.set("AbstractTitle", formData.abstractTitle);
+      formDataToSend.set("MobileNo", formData.mobileNo);
+      formDataToSend.set("AttendanceMode", formData.attendanceMode);
+      
+      // Files are already in the form since they are input type="file"
+      
+      const result = await submitRegistration(formDataToSend);
+      
+      if (result.success) {
+        setStatus("success");
+      } else {
+        setStatus("error");
+        setErrorMessage(result.error || "Failed to submit abstract");
+      }
     }
   };
+
+  if (status === "success") {
+    return (
+      <div className="bg-emerald-50 text-emerald-800 p-12 rounded-3xl border border-emerald-100 text-center space-y-6 mt-12 animate-in zoom-in-95 duration-500">
+        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm">
+          <CheckCircle2 className="w-8 h-8 text-emerald-500" />
+        </div>
+        <h3 className="text-2xl font-black mb-2 tracking-tight">Abstract Submitted Successfully!</h3>
+        <p className="max-w-md mx-auto text-sm font-medium leading-relaxed">
+          Your abstract has been queued for peer review. You will receive an email confirmation shortly.
+        </p>
+        <Button 
+          className="mt-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-3 rounded-2xl" 
+          onClick={() => setStatus("idle")}
+        >
+          Submit Another Abstract
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="mt-12">
@@ -251,13 +293,25 @@ export const SubmissionForm: React.FC = () => {
             </div>
           </div>
 
+          {status === "error" && (
+             <div className="mt-6 p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3 text-red-700 text-sm font-bold animate-in slide-in-from-top-2">
+                <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                {errorMessage}
+             </div>
+          )}
+
           <div className="flex justify-end mt-8">
             <Button
               type="submit"
-              variant="primary"
-              className="px-10 py-3 rounded-full bg-[#ff6a00] hover:bg-[#e65f00] text-white font-bold transition-all shadow-md hover:shadow-lg"
+              disabled={status === "loading"}
+              className="px-10 py-4 rounded-full bg-[#ff6a00] hover:bg-[#e65f00] text-white font-black text-xs uppercase tracking-widest transition-all shadow-xl shadow-orange-950/10 hover:scale-105 active:scale-95 disabled:opacity-50"
             >
-              Submit Form
+              {status === "loading" ? (
+                <div className="flex items-center gap-2">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Transmitting...
+                </div>
+              ) : "Submit Abstract"}
             </Button>
           </div>
         </form>

@@ -6,18 +6,21 @@ import { ImageGallery } from "@/components/layout/ImageGallery";
 import CoreFocus from "@/components/layout/CoreFocus";
 import Partners from "@/components/layout/Partners";
 import RegistrationSection from "@/components/layout/RegistrationSection";
+import { getHomepageContent } from "@/lib/actions/public";
 
-export default function Home() {
+export default async function Home() {
+  const content = await getHomepageContent();
+
   return (
     <>
-      <HeroSection />
+      <HeroSection data={content.hero} />
       <AccreditationSection />
       <ConferenceOverview />
-      <AboutConference />
+      <AboutConference data={content.about} />
       <ImageGallery />
       <CoreFocus />
       <Partners />
-      <RegistrationSection />
+      <RegistrationSection feesData={content.fees} />
     </>
   );
 }

@@ -13,6 +13,7 @@ export const AccreditationSection: React.FC = () => {
             height={100}
             className="w-full max-w-4xl h-auto object-contain"
             priority
+            unoptimized
           />
         </div>
       </div>

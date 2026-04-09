@@ -6,26 +6,18 @@ const galleryImages = [
   {
     src: "https://icetmtshs.lincoln.edu.my/wp-content/uploads/2025/05/IMG-20250506-WA0018.jpg",
     alt: "Conference gallery image 1",
-    width: 1600,
-    height: 1066,
   },
   {
     src: "https://icetmtshs.lincoln.edu.my/wp-content/uploads/2025/05/IMG-20250506-WA0014.jpg",
     alt: "Conference gallery image 2",
-    width: 1600,
-    height: 1066,
   },
   {
     src: "https://icetmtshs.lincoln.edu.my/wp-content/uploads/2025/05/IMG-20250506-WA0006.jpg",
     alt: "Conference gallery image 3",
-    width: 1600,
-    height: 1066,
   },
   {
     src: "https://icetmtshs.lincoln.edu.my/wp-content/uploads/2024/02/1F6A2143-scaled.jpg",
     alt: "Conference gallery image 4",
-    width: 2560,
-    height: 1707,
   },
 ];
 
@@ -39,14 +31,18 @@ export const ImageGallery: React.FC = () => {
             Conference Gallery
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Explore moments from our previous conferences and get a glimpse of what to expect at ICETMTSHS 2026
+            Explore moments from our previous conferences and get a glimpse of
+            what to expect at ICETMTSHS 2026
           </p>
         </div>
 
         {/* Image Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {galleryImages.map((image, index) => (
-            <div key={index} className="relative group overflow-hidden rounded-lg shadow-md">
+            <div
+              key={index}
+              className="relative group overflow-hidden rounded-lg shadow-md"
+            >
               <div className="aspect-[4/3] relative bg-gray-200">
                 <Image
                   src={image.src}
@@ -54,9 +50,9 @@ export const ImageGallery: React.FC = () => {
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  unoptimized={true}
+                  unoptimized
+                  loading="lazy"
                 />
-                {/* Static overlay — rendered identically on server and client */}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
               </div>
             </div>

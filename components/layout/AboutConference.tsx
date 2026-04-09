@@ -1,7 +1,25 @@
 "use client"
 import Image from "next/image";
 
-export default function AboutConference() {
+interface AboutData {
+  heading?: string;
+  description?: string;
+  partnerTitle?: string;
+  partnerDescription?: string;
+  year?: string;
+}
+
+export default function AboutConference({ data }: { data?: AboutData }) {
+  const defaults = {
+    heading: "Reimagining the Future: Innovation, Sustainability, and Human-Centric Development.",
+    description: "ICETMTSHS 2026 serves as a prestigious global platform for researchers, academicians, and industry leaders. We aim to foster a collaborative ecosystem where interdisciplinary boundaries are crossed to address the pressing challenges of our era.",
+    partnerTitle: "Lincoln University College & Lincoln Institute of Higher Education",
+    partnerDescription: "Through a strategic partnership between Lincoln University College Malaysia and the Lincoln Institute of Higher Education Australia, this conference bridges the best of Asian and Australian academic excellence to provide a truly international discourse.",
+    year: "2026"
+  };
+
+  const content = { ...defaults, ...data };
+
   return (
     <section className="about-section">
       <div className="about-inner">
@@ -9,26 +27,20 @@ export default function AboutConference() {
         <div className="about-left">
           <p className="about-eyebrow">ABOUT THE CONFERENCE</p>
 
-          <h1 className="about-heading">
-            Reimagining the Future: Innovation, Sustainability, and Human&#8209;Centric Development.
+          <h1 className="about-heading tracking-tight font-black uppercase text-gray-950">
+            {content.heading}
           </h1>
 
-          <p className="about-body">
-            ICETMTSHS 2026 serves as a prestigious global platform for
-            researchers, academicians, and industry leaders. We aim to foster a
-            collaborative ecosystem where interdisciplinary boundaries are
-            crossed to address the pressing challenges of our era.
+          <p className="about-body font-bold text-gray-600 leading-relaxed text-sm">
+            {content.description}
           </p>
 
-          <div className="about-card">
-            <p className="about-card-title">
-              Lincoln University College &amp; Lincoln Institute of Higher Education
+          <div className="about-card bg-white border border-gray-100 shadow-sm rounded-3xl p-8">
+            <p className="about-card-title font-black text-[#9b1d20] uppercase text-xs tracking-widest mb-4">
+              {content.partnerTitle}
             </p>
-            <p className="about-card-body">
-              Through a strategic partnership between Lincoln University College
-              Malaysia and the Lincoln Institute of Higher Education Australia,
-              this conference bridges the best of Asian and Australian academic
-              excellence to provide a truly international discourse.
+            <p className="about-card-body font-bold text-gray-500 text-xs leading-relaxed italic">
+              {content.partnerDescription}
             </p>
           </div>
         </div>
@@ -38,15 +50,15 @@ export default function AboutConference() {
           <div className="about-image-wrapper">
             <Image
               src="/home-about.png"
-              alt="Conference venue — modern boardroom with city skyline"
+              alt="Conference venue"
               fill
-              className="about-image"
+              className="about-image object-cover rounded-[3rem] shadow-2xl brightness-90 grayscale-[20%]"
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
             />
-            <div className="about-year-badge">
-              <span className="about-year-number">2026</span>
-              <span className="about-year-label">THE GLOBAL EDITION</span>
+            <div className="about-year-badge bg-[#9b1d20] shadow-2xl p-10 rounded-3xl border-4 border-white/20 backdrop-blur-xl">
+              <span className="about-year-number font-black text-6xl tracking-tighter text-white">{content.year}</span>
+              <span className="about-year-label font-bold text-[10px] text-red-200 mt-2 uppercase tracking-[0.3em]">The Global Edition</span>
             </div>
           </div>
         </div>
@@ -54,9 +66,8 @@ export default function AboutConference() {
 
       <style jsx>{`
         .about-section {
-          background-color: #f5f5f3;
-          padding: 80px 64px;
-          font-family: "Georgia", "Times New Roman", serif;
+          background-color: #fdfdfc;
+          padding: 120px 64px;
         }
 
         .about-inner {
@@ -64,7 +75,7 @@ export default function AboutConference() {
           margin: 0 auto;
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 64px;
+          gap: 100px;
           align-items: center;
         }
 
@@ -72,62 +83,23 @@ export default function AboutConference() {
         .about-left {
           display: flex;
           flex-direction: column;
-          gap: 28px;
+          gap: 40px;
         }
 
         .about-eyebrow {
-          font-family: "Arial", sans-serif;
+          font-family: inherit;
           font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.18em;
-          color: #8b1a1a;
+          font-weight: 900;
+          letter-spacing: 0.3em;
+          color: #9b1d20;
           text-transform: uppercase;
           margin: 0;
         }
 
         .about-heading {
-          font-size: clamp(2rem, 3.5vw, 2.75rem);
-          font-weight: 800;
-          line-height: 1.12;
-          color: #111010;
+          font-size: clamp(2.5rem, 4.5vw, 3.5rem);
+          line-height: 1;
           margin: 0;
-          font-family: "Arial Black", "Arial", sans-serif;
-          letter-spacing: -0.02em;
-        }
-
-        .about-body {
-          font-size: 15px;
-          line-height: 1.7;
-          color: #444;
-          margin: 0;
-          font-family: "Arial", sans-serif;
-          font-weight: 400;
-          max-width: 520px;
-        }
-
-        .about-card {
-          background-color: #eeeeec;
-          border-radius: 6px;
-          padding: 28px 32px;
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-
-        .about-card-title {
-          font-size: 14px;
-          font-weight: 700;
-          color: #8b1a1a;
-          margin: 0;
-          font-family: "Arial", sans-serif;
-        }
-
-        .about-card-body {
-          font-size: 13.5px;
-          line-height: 1.7;
-          color: #555;
-          margin: 0;
-          font-family: "Arial", sans-serif;
         }
 
         /* ── Right ── */
@@ -138,83 +110,33 @@ export default function AboutConference() {
         .about-image-wrapper {
           position: relative;
           width: 100%;
-          aspect-ratio: 4 / 4.6;
-          border-radius: 12px;
-          overflow: visible;
-        }
-
-        .about-image {
-          object-fit: cover;
-          border-radius: 12px;
+          aspect-ratio: 4 / 5;
         }
 
         .about-year-badge {
           position: absolute;
-          bottom: -20px;
-          left: -20px;
-          background-color: #7a1212;
-          color: #fff;
-          padding: 28px 36px;
-          border-radius: 4px;
+          bottom: -40px;
+          left: -40px;
           display: flex;
           flex-direction: column;
-          gap: 4px;
           z-index: 10;
-          min-width: 200px;
-        }
-
-        .about-year-number {
-          font-family: "Arial Black", "Arial", sans-serif;
-          font-size: 3rem;
-          font-weight: 900;
-          line-height: 1;
-          letter-spacing: -0.02em;
-        }
-
-        .about-year-label {
-          font-family: "Arial", sans-serif;
-          font-size: 10px;
-          font-weight: 700;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          opacity: 0.9;
+          min-width: 240px;
         }
 
         /* ── Responsive ── */
-        @media (max-width: 900px) {
+        @media (max-width: 1024px) {
           .about-section {
-            padding: 56px 32px;
+            padding: 80px 32px;
           }
 
           .about-inner {
             grid-template-columns: 1fr;
-            gap: 48px;
-          }
-
-          .about-right {
-            /* give room for the overflowing badge */
-            padding-bottom: 32px;
-          }
-
-          .about-image-wrapper {
-            aspect-ratio: 16 / 10;
-          }
-        }
-
-        @media (max-width: 520px) {
-          .about-section {
-            padding: 40px 20px;
+            gap: 80px;
           }
 
           .about-year-badge {
-            left: 12px;
-            bottom: -12px;
-            padding: 20px 24px;
-            min-width: 160px;
-          }
-
-          .about-year-number {
-            font-size: 2.2rem;
+            left: 20px;
+            bottom: -20px;
           }
         }
       `}</style>

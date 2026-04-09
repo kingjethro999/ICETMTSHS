@@ -5,34 +5,25 @@ import { createClient } from "@/lib/supabase/server";
 export async function getDashboardStats() {
   const supabase = await createClient();
 
-  // 1. Total Registrations
-  const { count: totalRegistrations, error: regError } = await supabase
-    .from("registrations")
-    .select("*", { count: "exact", head: true });
-
-  // 2. Paid Submissions
-  const { count: paidSubmissions, error: paidError } = await supabase
-    .from("registrations")
-    .select("*", { count: "exact", head: true })
-    .eq("status", "Paid");
-
-  // 3. Abstracts (Presenters)
-  const { count: totalAbstracts, error: absError } = await supabase
-    .from("registrations")
-    .select("*", { count: "exact", head: true })
-    .eq("submission_type", "Presenter");
-
-  // 4. Gallery Items
-  const { count: totalGallery, error: galError } = await supabase
-    .from("gallery_items")
-    .select("*", { count: "exact", head: true });
-
-  // 5. Recent Registrations
-  const { data: recentRegistrations } = await supabase
-    .from("registrations")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(5);
+  // Parallelize all Supabase calls
+  const [
+    { count: totalRegistrations, error: regError },
+    { count: paidSubmissions, error: paidError },
+    { count: totalAbstracts, error: absError },
+    { count: totalGallery, error: galError },
+    { data: recentRegistrations }
+  ] = await Promise.all([
+    // 1. Total Registrations
+    supabase.from("registrations").select("*", { count: "exact", head: true }),
+    // 2. Paid Submissions
+    supabase.from("registrations").select("*", { count: "exact", head: true }).eq("status", "Paid"),
+    // 3. Abstracts (Presenters)
+    supabase.from("registrations").select("*", { count: "exact", head: true }).eq("submission_type", "Presenter"),
+    // 4. Gallery Items
+    supabase.from("gallery_items").select("*", { count: "exact", head: true }),
+    // 5. Recent Registrations
+    supabase.from("registrations").select("*").order("created_at", { ascending: false }).limit(5)
+  ]);
 
   return {
     stats: {

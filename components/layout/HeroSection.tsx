@@ -12,17 +12,24 @@ interface HeroData {
 export const HeroSection: React.FC<{ data?: HeroData }> = ({ data }) => {
   const defaults = {
     date: "06TH & 07TH MAY 2026",
-    title: "3rd International Conference on Emerging Trends in Management, Technology, Social and Health Sciences",
+    title:
+      "3rd International Conference on Emerging Trends in Management, Technology, Social and Health Sciences",
     code: "(ICETMTSHS, 2026)",
     organizer: "Lincoln University College Malaysia",
-    video_url: "https://icetmtshs.lincoln.edu.my/wp-content/uploads/2023/11/Intro1.mp4",
-    poster_url: "/hero.png"
+    video_url:
+      "https://icetmtshs.lincoln.edu.my/wp-content/uploads/2023/11/Intro1.mp4",
+    poster_url: "/hero.png",
   };
 
   const content = { ...defaults, ...data };
 
   return (
     <div className="relative h-screen min-h-[600px] overflow-hidden">
+      {/*
+        Preconnect hint — tells the browser to open a TCP + TLS connection to
+        the WordPress origin early, reducing latency for the video and any
+        images that come from the same host.
+      */}
       {/* Background Video with Overlay */}
       <div className="absolute inset-0">
         <video
@@ -30,13 +37,14 @@ export const HeroSection: React.FC<{ data?: HeroData }> = ({ data }) => {
           loop
           muted
           playsInline
+          // preload="none" prevents the browser from fetching the video file
+          // until after the page is interactive, so it doesn't compete with
+          // critical resources during the initial page load.
+          preload="none"
           className="absolute inset-0 w-full h-full object-cover"
           poster={content.poster_url}
         >
-          <source
-            src={content.video_url}
-            type="video/mp4"
-          />
+          <source src={content.video_url} type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-red-900/80"></div>
       </div>

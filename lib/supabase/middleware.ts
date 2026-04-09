@@ -10,7 +10,7 @@ export async function updateSession(request: NextRequest) {
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY!,
     {
       cookies: {
         getAll() {
@@ -33,9 +33,20 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // Optimized user fetch
+  let user = null;
+  const { data: { user: u }, error: userError } = await supabase.auth.getUser();
+  
+  if (userError) {
+    // If the token was already used, it means another concurrent request refreshed it.
+    // In this case, we can try to get the session which should be valid now.
+    if (userError.message.includes("refresh_token_already_used")) {
+      const { data: { session } } = await supabase.auth.getSession();
+      user = session?.user || null;
+    }
+  } else {
+    user = u;
+  }
 
   // Protected route logic
   // If accessing /admin and not logged in (unless it's /admin/login)

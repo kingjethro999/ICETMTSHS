@@ -4,8 +4,10 @@ import { getDashboardStats, getConferenceSettings } from "./actions";
 import { SystemToggles } from "@/components/admin/features/SystemToggles";
 
 export default async function DashboardPage() {
-  const { stats: dbStats, recentRegistrations } = await getDashboardStats();
-  const settings = await getConferenceSettings();
+  const [{ stats: dbStats, recentRegistrations }, settings] = await Promise.all([
+    getDashboardStats(),
+    getConferenceSettings(),
+  ]);
 
   const isRegistrationActive = settings.find((s: any) => s.key === 'registration_active')?.value === true;
   const isMaintenanceMode = settings.find((s: any) => s.key === 'maintenance_mode')?.value === true;

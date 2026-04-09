@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 // 1. Manage Registration Status
 export async function updateRegistrationStatus(id: string, status: "Paid" | "Rejected" | "Pending") {
@@ -19,13 +19,16 @@ export async function updateRegistrationStatus(id: string, status: "Paid" | "Rej
 }
 
 // 2. Update Homepage Content
-export async function updateHomepageContent(section: string, content: any) {
+export async function updateHomepageContent(section: string, content: unknown) {
   const supabase = await createClient();
   const { error } = await supabase
     .from("homepage_content")
     .upsert({ section_name: section, content }, { onConflict: "section_name" });
-  
+
   if (error) return { success: false, error: error.message };
+
+  // Bust the unstable_cache so the live homepage shows changes immediately
+  revalidateTag("homepage_content");
   revalidatePath("/", "layout");
   revalidatePath("/admin/content-manager", "page");
   return { success: true };

@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 
 // 1. Submit Registration
 export async function submitRegistration(formData: FormData) {
@@ -14,14 +14,14 @@ export async function submitRegistration(formData: FormData) {
   const mobileNo = formData.get("MobileNo") as string;
   const attendanceMode = formData.get("AttendanceMode") as string;
   const abstractTitle = formData.get("AbstractTitle") as string;
-  const submissionType = formData.get("SubmissionType") as string || "Participant";
+  const submissionType = (formData.get("SubmissionType") as string) || "Participant";
 
   // File Uploads (Proof of Payment & ID)
   const paymentFile = formData.get("PaymentProofUpload") as File;
   const idFile = formData.get("EmployeeIdUpload") as File;
 
-  let paymentUrl = '';
-  let idUrl = '';
+  let paymentUrl = "";
+  let idUrl = "";
 
   try {
     // Upload Payment Proof
@@ -29,7 +29,7 @@ export async function submitRegistration(formData: FormData) {
       const { data, error } = await supabase.storage
         .from("gallery")
         .upload(`registrations/payment_${Date.now()}_${paymentFile.name}`, paymentFile);
-      
+
       if (error) throw error;
       paymentUrl = data.path;
     }
@@ -39,7 +39,7 @@ export async function submitRegistration(formData: FormData) {
       const { data, error } = await supabase.storage
         .from("gallery")
         .upload(`registrations/id_${Date.now()}_${idFile.name}`, idFile);
-      
+
       if (error) throw error;
       idUrl = data.path;
     }
@@ -57,32 +57,51 @@ export async function submitRegistration(formData: FormData) {
         alt_email: altEmail,
         mobile_no: mobileNo,
         attendance_mode: attendanceMode,
-        id_proof_url: idUrl
-      }
+        id_proof_url: idUrl,
+      },
     });
 
     if (dbError) throw dbError;
 
     revalidatePath("/admin/registrations");
     return { success: true };
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Failed to submit registration";
     console.error("Registration Error:", err);
-    return { error: err.message || "Failed to submit registration" };
+    return { error: message };
   }
 }
 
-// 2. Fetch Homepage Content
-export async function getHomepageContent() {
+// Internal fetcher — NOT exported, only called via cached wrapper below
+async function _fetchHomepageContent() {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("homepage_content")
     .select("*")
     .eq("is_published", true);
 
-  if (error) return {};
-  
-  return data.reduce((acc: any, curr: any) => {
+  if (error || !data) return {};
+
+  return data.reduce((acc: Record<string, unknown>, curr: { section_name: string; content: unknown }) => {
     acc[curr.section_name] = curr.content;
     return acc;
   }, {});
 }
+
+// 2. Fetch Homepage Content — cached for 5 minutes at the server level.
+//    This eliminates the Supabase round-trip on every page load.
+//    Call revalidateHomepageCache() in the CMS admin action to bust the cache.
+export const getHomepageContent = unstable_cache(
+  _fetchHomepageContent,
+  ["homepage_content"],
+  {
+    revalidate: 300, // 5 minutes
+    tags: ["homepage_content"],
+  }
+);
+
+// 3. Bust the homepage cache — call this from admin CMS save actions
+export async function revalidateHomepageCache() {
+  revalidateTag("homepage_content");
+}
+

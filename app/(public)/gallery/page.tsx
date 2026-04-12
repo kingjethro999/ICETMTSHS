@@ -51,15 +51,15 @@ export default async function GalleryPage() {
                 className="group relative aspect-[3/4] overflow-hidden rounded-[2.5rem] bg-gray-50 shadow-sm border border-gray-100 transition-all duration-700 hover:shadow-2xl hover:shadow-red-900/20 hover:-translate-y-2 cursor-zoom-in"
               >
                 <img
-                  src={item.url}
-                  alt={item.title}
+                  src={item.image_url}
+                  alt={item.caption}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110 brightness-95 group-hover:brightness-100"
                 />
                 
                 {/* Meta Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#9b1d20]/90 via-[#9b1d20]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
-                   <span className="text-[10px] font-black uppercase text-red-200 tracking-widest mb-2 italic">{item.year} Event</span>
-                   <h3 className="text-white text-xl font-black leading-tight uppercase tracking-tighter">{item.title}</h3>
+                   <span className="text-[10px] font-black uppercase text-red-200 tracking-widest mb-2 italic">{item.year_tag} Event</span>
+                   <h3 className="text-white text-xl font-black leading-tight uppercase tracking-tighter">{item.caption}</h3>
                 </div>
                 
                 {/* ID Badge */}

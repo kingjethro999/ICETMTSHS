@@ -1,7 +1,9 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { createAnonClient } from "@/lib/supabase/anon";
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
+import { sendSubmissionConfirmation } from "@/lib/emails";
 
 // 1. Submit Registration
 export async function submitRegistration(formData: FormData) {
@@ -16,15 +18,27 @@ export async function submitRegistration(formData: FormData) {
   const abstractTitle = formData.get("AbstractTitle") as string;
   const submissionType = (formData.get("SubmissionType") as string) || "Participant";
 
-  // File Uploads (Proof of Payment & ID)
+  // File Uploads (Abstract, Proof of Payment & ID)
+  const abstractFile = formData.get("AbstractUpload") as File;
   const paymentFile = formData.get("PaymentProofUpload") as File;
   const idFile = formData.get("EmployeeIdUpload") as File;
 
+  let abstractUrl = "";
   let paymentUrl = "";
   let idUrl = "";
 
   try {
-    // Upload Payment Proof
+    // 1. Upload Abstract (for presenters)
+    if (abstractFile && abstractFile.size > 0) {
+      const { data, error } = await supabase.storage
+        .from("gallery")
+        .upload(`abstracts/${Date.now()}_${abstractFile.name}`, abstractFile);
+
+      if (error) throw error;
+      abstractUrl = data.path;
+    }
+
+    // 2. Upload Payment Proof
     if (paymentFile && paymentFile.size > 0) {
       const { data, error } = await supabase.storage
         .from("gallery")
@@ -34,7 +48,7 @@ export async function submitRegistration(formData: FormData) {
       paymentUrl = data.path;
     }
 
-    // Upload ID Proof
+    // 3. Upload ID Proof
     if (idFile && idFile.size > 0) {
       const { data, error } = await supabase.storage
         .from("gallery")
@@ -44,13 +58,14 @@ export async function submitRegistration(formData: FormData) {
       idUrl = data.path;
     }
 
-    // Save to Database
+    // 4. Save to Database
     const { error: dbError } = await supabase.from("registrations").insert({
       full_name: fullName,
       email: email,
       institution: affiliation,
       submission_type: submissionType,
       paper_title: abstractTitle,
+      abstract_url: abstractUrl,
       payment_proof_url: paymentUrl,
       status: "Pending",
       metadata: {
@@ -63,6 +78,13 @@ export async function submitRegistration(formData: FormData) {
 
     if (dbError) throw dbError;
 
+    // 5. Send confirmation email
+    try {
+      await sendSubmissionConfirmation(email, fullName, submissionType);
+    } catch (emailErr) {
+      console.error("Non-blocking email error:", emailErr);
+    }
+
     revalidatePath("/admin/registrations");
     return { success: true };
   } catch (err: unknown) {
@@ -72,9 +94,43 @@ export async function submitRegistration(formData: FormData) {
   }
 }
 
+// 2. Submit Contact Form
+export async function submitContactForm(formData: FormData) {
+  const supabase = createAnonClient();
+  
+  const name = formData.get("name") as string;
+  const email = formData.get("email") as string;
+  const subject = formData.get("subject") as string;
+  const message = formData.get("message") as string;
+
+  // Professional Validation
+  if (!name || !email || !subject || !message) {
+    return { error: "All fields are required." };
+  }
+
+  if (!/^\S+@\S+\.\S+$/.test(email)) {
+    return { error: "Invalid email address format." };
+  }
+
+  try {
+    const { error } = await supabase.from("contact_messages").insert({
+      name,
+      email,
+      subject,
+      message,
+    });
+
+    if (error) throw error;
+    return { success: true };
+  } catch (err) {
+    console.error("Contact Form Error:", err);
+    return { error: "Failed to send message. Please try again later." };
+  }
+}
+
 // Internal fetcher — NOT exported, only called via cached wrapper below
 async function _fetchHomepageContent() {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
   const { data, error } = await supabase
     .from("homepage_content")
     .select("*")
@@ -102,6 +158,6 @@ export const getHomepageContent = unstable_cache(
 
 // 3. Bust the homepage cache — call this from admin CMS save actions
 export async function revalidateHomepageCache() {
-  revalidateTag("homepage_content");
+  revalidateTag("homepage_content", "max");
 }
 

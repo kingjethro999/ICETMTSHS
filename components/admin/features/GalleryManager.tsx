@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { ImageIcon, Upload, Trash2, Edit3, Grid, List, Search, Filter, Camera, Info, History, Loader2, Hash, FileImage } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { useRouter } from "next/navigation";
 import { uploadGalleryItem, deleteGalleryItem } from "@/lib/actions/admin";
 
 interface GalleryItem {
@@ -23,6 +24,8 @@ export function GalleryManager({ initialItems }: { initialItems: GalleryItem[] }
   const [newYear, setNewYear] = useState("2026");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
+  const router = useRouter();
+  
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedFile || !newTitle) return;
@@ -37,9 +40,7 @@ export function GalleryManager({ initialItems }: { initialItems: GalleryItem[] }
     if (result.success) {
       setNewTitle("");
       setSelectedFile(null);
-      // For simplicity, we trigger revalidation, but in a real app, 
-      // we'd probably update the state or use a router refresh.
-      window.location.reload();
+      router.refresh(); // Professional: refreshes server components without full reload
     }
     setUploading(false);
   };

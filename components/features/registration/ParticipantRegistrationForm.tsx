@@ -6,10 +6,20 @@ import { submitRegistration } from "@/lib/actions/public";
 
 export const ParticipantRegistrationForm: React.FC = () => {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<{ id?: string, payment?: string }>({});
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'id' | 'payment') => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedFiles(prev => ({ ...prev, [type]: file.name }));
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
+    setErrorMessage(null);
     
     const formData = new FormData(e.currentTarget);
     formData.append("SubmissionType", "Participant");
@@ -19,20 +29,28 @@ export const ParticipantRegistrationForm: React.FC = () => {
     if (result.success) {
       setStatus("success");
     } else {
-      console.error(result.error);
+      setErrorMessage(result.error || "Submission failed. Please check your data.");
       setStatus("error");
     }
   };
 
   if (status === "success") {
     return (
-      <div className="bg-green-50 text-green-800 p-8 rounded-xl border border-green-100 text-center">
-        <h3 className="text-xl font-bold mb-2">Registration Submitted!</h3>
-        <p>Thank you for submitting your registration. We will review your payment proof and confirm your attendance shortly.</p>
+      <div className="bg-emerald-50 text-emerald-800 p-12 rounded-3xl border border-emerald-100 text-center space-y-6 animate-in zoom-in-95 duration-500">
+        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm">
+          <CheckCircle2 className="w-10 h-10 text-emerald-500" />
+        </div>
+        <h3 className="text-3xl font-black mb-2 tracking-tight">Registration Submitted!</h3>
+        <p className="max-w-md mx-auto text-sm font-medium leading-relaxed opacity-80">
+          Thank you for registering. We will review your payment proof and send a confirmation email shortly.
+        </p>
         <Button 
-          className="mt-6" 
+          className="mt-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-10 py-4 rounded-2xl transition-all hover:scale-105" 
           variant="secondary" 
-          onClick={() => setStatus("idle")}
+          onClick={() => {
+            setStatus("idle");
+            setSelectedFiles({});
+          }}
         >
           Submit another registration
         </Button>
@@ -42,6 +60,15 @@ export const ParticipantRegistrationForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit} className="w-full">
+      {status === "error" && (
+        <div className="bg-red-50 border border-red-100 text-red-800 p-5 rounded-2xl mb-8 flex items-center gap-4 animate-in slide-in-from-top-4">
+          <AlertCircle className="w-6 h-6 text-red-500" />
+          <div>
+            <p className="font-black text-xs uppercase tracking-widest">Submission Error</p>
+            <p className="text-sm font-bold opacity-80">{errorMessage}</p>
+          </div>
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
         
         {/* Left Column */}
@@ -77,8 +104,15 @@ export const ParticipantRegistrationForm: React.FC = () => {
                 id="EmployeeIdUpload"
                 name="EmployeeIdUpload"
                 accept=".pdf,.png,.jpg,.jpeg"
+                onChange={(e) => handleFileChange(e, 'id')}
                 className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#9b1d20]/10 file:text-[#9b1d20] hover:file:bg-[#9b1d20]/20 transition-all cursor-pointer"
               />
+              {selectedFiles.id && (
+                <div className="mt-2 flex items-center gap-2 text-emerald-600 font-bold text-[10px] uppercase tracking-widest">
+                  <CheckCircle2 className="w-3 h-3" />
+                  {selectedFiles.id}
+                </div>
+              )}
             </div>
           </div>
 
@@ -113,8 +147,15 @@ export const ParticipantRegistrationForm: React.FC = () => {
                 name="PaymentProofUpload"
                 accept=".pdf,.png,.jpg,.jpeg"
                 required
+                onChange={(e) => handleFileChange(e, 'payment')}
                 className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#9b1d20]/10 file:text-[#9b1d20] hover:file:bg-[#9b1d20]/20 transition-all cursor-pointer"
               />
+              {selectedFiles.payment && (
+                <div className="mt-2 flex items-center gap-2 text-emerald-600 font-bold text-[10px] uppercase tracking-widest">
+                  <CheckCircle2 className="w-3 h-3" />
+                  {selectedFiles.payment}
+                </div>
+              )}
             </div>
           </div>
 

@@ -24,6 +24,9 @@ const nextConfig: NextConfig = {
 
   // Compress responses
   compress: true,
+
+  // Allow HMR and Dev resources from local network IP
+  allowedDevOrigins: ["192.168.0.194", "localhost:3000"],
 };
 
 export default nextConfig;

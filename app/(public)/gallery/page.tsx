@@ -1,8 +1,9 @@
 import React from "react";
 import { Metadata } from "next";
+import Image from "next/image";
 import { SquigglyLine } from "@/components/ui/SquigglyLine";
-import { Camera, Image as ImageIcon } from "lucide-react";
-import { createClient } from "@/lib/supabase/server";
+import { Camera, ImageOff } from "lucide-react";
+import { getGalleryItems } from "@/lib/actions/public";
 
 export const metadata: Metadata = {
   title: "Gallery | ICETMTSHS 2026",
@@ -10,91 +11,68 @@ export const metadata: Metadata = {
 };
 
 export default async function GalleryPage() {
-  const supabase = await createClient();
-  const { data: items } = await supabase
-    .from("gallery_items")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  const galleryItems = items || [];
+  const images = await getGalleryItems();
 
   return (
     <div className="bg-white min-h-screen pb-20">
       {/* Hero Header */}
-      <section className="bg-white border-b border-gray-100 pt-32 pb-20">
+      <section className="bg-white border-b border-gray-100 pt-16 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-center text-center">
-            <div className="flex items-center gap-4 mb-6">
-              <Camera className="text-[#9b1d20] w-8 h-8" />
-              <span className="text-xs font-black uppercase tracking-[0.3em] text-[#9b1d20]">
-                Event Archives
+          <div className="flex flex-col items-start">
+            <div className="flex items-center gap-3 mb-4">
+              <Camera className="text-[#9b1d20]" size={24} />
+              <span className="text-sm font-semibold uppercase tracking-widest text-[#9b1d20]">
+                Photos
               </span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-black text-[#9b1d20] mb-6 tracking-tight">
-              Multimedia Gallery
+            <h1 className="text-4xl md:text-5xl font-extrabold text-[#9b1d20] mb-2">
+              Gallery
             </h1>
             <SquigglyLine />
-            <p className="mt-8 text-gray-500 max-w-2xl text-lg font-bold uppercase tracking-widest leading-relaxed">
-              Explore the highlights of ICETMTSHS 2024 & Beyond
+            <p className="mt-4 text-gray-600 max-w-2xl text-lg font-medium">
+              ICETMTSHS Official Gallery & Scholarly Archives
             </p>
           </div>
         </div>
       </section>
 
       {/* Grid Gallery */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24">
-        {galleryItems.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {galleryItems.map((item, index) => (
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-14">
+        {images && images.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            {images.map((img: any, index: number) => (
               <div 
-                key={item.id} 
-                className="group relative aspect-[3/4] overflow-hidden rounded-[2.5rem] bg-gray-50 shadow-sm border border-gray-100 transition-all duration-700 hover:shadow-2xl hover:shadow-red-900/20 hover:-translate-y-2 cursor-zoom-in"
+                key={img.id} 
+                className="group relative aspect-[4/3] overflow-hidden rounded-xl bg-gray-100 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
               >
-                <img
-                  src={item.image_url}
-                  alt={item.caption}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110 brightness-95 group-hover:brightness-100"
+                <Image
+                  src={img.image_url}
+                  alt={img.caption || `ICETMTSHS Gallery Image ${index + 1}`}
+                  fill
+                  sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  unoptimized
+                  priority={index < 8}
                 />
-                
-                {/* Meta Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#9b1d20]/90 via-[#9b1d20]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
-                   <span className="text-[10px] font-black uppercase text-red-200 tracking-widest mb-2 italic">{item.year_tag} Event</span>
-                   <h3 className="text-white text-xl font-black leading-tight uppercase tracking-tighter">{item.caption}</h3>
-                </div>
-                
-                {/* ID Badge */}
-                <div className="absolute top-6 right-6 px-4 py-1 bg-white/20 backdrop-blur-xl border border-white/30 rounded-full text-[9px] font-black text-white uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                   REF-{(index + 1).toString().padStart(3, '0')}
+                {/* Overlay with Caption */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                   <p className="text-white text-[10px] font-black uppercase tracking-wider mb-1">{img.year_tag}</p>
+                   <p className="text-white/90 text-xs font-bold line-clamp-2 leading-relaxed tracking-tight">{img.caption}</p>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="py-40 text-center space-y-6 animate-in fade-in duration-1000">
-             <div className="p-8 bg-gray-50 rounded-full w-fit mx-auto">
-               <ImageIcon className="w-12 h-12 text-gray-200" />
-             </div>
-             <div>
-               <h3 className="text-2xl font-black text-gray-900 tracking-tight">Gallery is currently offline</h3>
-               <p className="text-sm font-bold text-gray-400 mt-2 uppercase tracking-widest">Digital archives will be updated shortly</p>
-             </div>
+          <div className="flex flex-col items-center justify-center py-24 text-center space-y-4">
+            <div className="p-6 bg-gray-50 rounded-full">
+              <ImageOff className="w-12 h-12 text-gray-300" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-gray-900">No images found</h3>
+              <p className="text-gray-500 max-w-xs mt-2">The official gallery is currently being curated. Please check back later.</p>
+            </div>
           </div>
         )}
-      </section>
-
-      {/* Participation CTA */}
-      <section className="max-w-4xl mx-auto px-4 mt-40">
-         <div className="bg-[#9b1d20] rounded-[3rem] p-16 text-center text-white relative overflow-hidden shadow-2xl shadow-red-900/40">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl animate-pulse" />
-            <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight">Captured the moment?</h2>
-            <p className="text-red-100/70 font-bold uppercase tracking-[0.2em] text-xs mb-10">Join the upcoming ICETMTSHS 2026 conference</p>
-            <a 
-             href="/registration-as-participant"
-             className="inline-block px-12 py-5 bg-white text-[#9b1d20] rounded-2xl font-black text-xs uppercase tracking-[0.25em] shadow-xl hover:scale-105 active:scale-95 transition-all"
-            >
-              Secure Your Seat
-            </a>
-         </div>
       </section>
     </div>
   );

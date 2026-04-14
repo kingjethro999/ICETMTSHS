@@ -101,6 +101,7 @@ export async function deleteGalleryItem(id: string, storagePath: string) {
 
   revalidatePath("/admin/gallery", "page");
   revalidatePath("/", "layout");
+  revalidateTag("gallery_items");
   return { success: true };
 }
 
@@ -133,7 +134,73 @@ export async function uploadGalleryItem(formData: FormData) {
 
   revalidatePath("/admin/gallery", "page");
   revalidatePath("/", "layout");
+  revalidateTag("gallery_items");
   return { success: true };
+}
+
+export async function updateGalleryItem(id: string, caption: string, year_tag: string) {
+  const supabase = await checkAuth();
+
+  const { error } = await supabase
+    .from("gallery_items")
+    .update({ caption, year_tag })
+    .eq("id", id);
+
+  if (error) return { success: false, error: error.message };
+
+  revalidatePath("/admin/gallery", "page");
+  revalidateTag("gallery_items");
+  return { success: true };
+}
+
+export async function migrateLegacyGallery(filenames: string[]) {
+  const supabase = await checkAuth();
+  const baseUrl = "https://icetmtshs.lincoln.edu.my/wp-content/uploads/2025/05/";
+  let successCount = 0;
+  let errors = [];
+
+  for (const filename of filenames) {
+    try {
+      // 1. Fetch from WP
+      const wpResponse = await fetch(`${baseUrl}${filename}`);
+      if (!wpResponse.ok) throw new Error(`WP Fetch Failed: ${wpResponse.statusText}`);
+      const blob = await wpResponse.blob();
+      
+      // 2. Upload to Supabase
+      const storagePath = `migrated/${Date.now()}-${filename}`;
+      const { error: storageError } = await supabase.storage
+        .from("gallery")
+        .upload(storagePath, blob, {
+          contentType: "image/jpeg",
+          upsert: true
+        });
+
+      if (storageError) throw storageError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from("gallery")
+        .getPublicUrl(storagePath);
+
+      // 3. Insert Record
+      const { error: dbError } = await supabase
+        .from("gallery_items")
+        .insert({
+          caption: "ICETMTSHS Archive",
+          year_tag: "2024",
+          image_url: publicUrl,
+        });
+
+      if (dbError) throw dbError;
+      successCount++;
+    } catch (err: any) {
+      console.error(`Migration Failed for ${filename}:`, err);
+      errors.push(`${filename}: ${err.message}`);
+    }
+  }
+
+  revalidatePath("/admin/gallery", "page");
+  revalidateTag("gallery_items");
+  return { success: true, migrated: successCount, errors };
 }
 
 // 3. Delete Registration

@@ -161,3 +161,23 @@ export async function revalidateHomepageCache() {
   revalidateTag("homepage_content", "max");
 }
 
+// 4. Fetch Gallery Items — cached for performance
+async function _fetchGalleryItems() {
+  const supabase = createAnonClient();
+  const { data, error } = await supabase
+    .from("gallery_items")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) return [];
+  return data;
+}
+
+export const getGalleryItems = unstable_cache(
+  _fetchGalleryItems,
+  ["gallery_items"],
+  {
+    revalidate: 600, // 10 minutes
+    tags: ["gallery_items"],
+  }
+);

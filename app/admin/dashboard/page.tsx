@@ -1,5 +1,6 @@
 import { Users, FileText, ImageIcon, Activity, TrendingUp, Calendar, Clock, MapPin, Globe, CreditCard, ChevronRight, ArrowUpRight, ArrowDownRight, User, Settings } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import Link from "next/link";
 import { getDashboardStats, getConferenceSettings } from "./actions";
 import { SystemToggles } from "@/components/admin/features/SystemToggles";
 
@@ -22,6 +23,7 @@ export default async function DashboardPage() {
       color: "bg-blue-500",
       lightColor: "bg-blue-50",
       textColor: "text-blue-600",
+      href: "/admin/registrations",
     },
     {
       label: "Paid Submissions",
@@ -32,6 +34,7 @@ export default async function DashboardPage() {
       color: "bg-emerald-500",
       lightColor: "bg-emerald-50",
       textColor: "text-emerald-600",
+      href: "/admin/registrations",
     },
     {
       label: "Abstracts Received",
@@ -42,6 +45,7 @@ export default async function DashboardPage() {
       color: "bg-amber-500",
       lightColor: "bg-amber-50",
       textColor: "text-amber-600",
+      href: "/admin/content-manager",
     },
     {
       label: "Gallery Assets",
@@ -52,6 +56,7 @@ export default async function DashboardPage() {
       color: "bg-[#9b1d20]",
       lightColor: "bg-red-50",
       textColor: "text-[#9b1d20]",
+      href: "/admin/gallery",
     },
   ];
 
@@ -91,7 +96,7 @@ export default async function DashboardPage() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
-          <div key={stat.label} className="group p-8 bg-white border border-gray-100 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-500 cursor-pointer">
+          <Link href={stat.href} key={stat.label} className="group p-8 bg-white border border-gray-100 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-500 cursor-pointer block">
             <div className="flex items-center justify-between mb-8">
               <div className={cn("p-4 rounded-2xl shadow-inner group-hover:scale-110 transition-transform duration-500", stat.lightColor)}>
                 <stat.icon className={cn("w-6 h-6", stat.textColor)} />
@@ -112,7 +117,7 @@ export default async function DashboardPage() {
               <span className="text-[10px] font-bold text-gray-400">Activity monitor</span>
               <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-gray-900 transition-colors" />
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 

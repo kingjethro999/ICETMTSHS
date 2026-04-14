@@ -15,7 +15,6 @@ interface GalleryItem {
 }
 
 export function GalleryManager({ initialItems }: { initialItems: GalleryItem[] }) {
-  const [items, setItems] = useState(initialItems);
   const [loading, setLoading] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   
@@ -91,10 +90,9 @@ export function GalleryManager({ initialItems }: { initialItems: GalleryItem[] }
     if (!confirm("Are you sure you want to delete this asset?")) return;
     
     setLoading(id);
-    const result = await deleteGalleryItem(id, storagePath);
-    if (result.success) {
-      setItems(items.filter(item => item.id !== id));
-    }
+    await deleteGalleryItem(id, storagePath);
+    // Next.js Server Actions automatically revalidate the path and push the new RSC payload,
+    // so the UI will update inherently based on the new initialItems prop.
     setLoading(null);
   };
 
@@ -103,7 +101,7 @@ export function GalleryManager({ initialItems }: { initialItems: GalleryItem[] }
       {/* Gallery Main Area */}
       <div className="lg:col-span-12 xl:col-span-8 space-y-6">
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 pb-10">
-            {items.map((img) => (
+            {initialItems.map((img) => (
               <div key={img.id} className="group relative bg-white aspect-[3/4] rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-red-900/10 hover:-translate-y-1 transition-all duration-500 overflow-hidden">
                 <img 
                   src={img.image_url} 

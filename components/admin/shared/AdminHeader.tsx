@@ -64,16 +64,7 @@ export function AdminHeader() {
 
       {/* Right Side - Actions & Profile */}
       <div className="flex items-center gap-4">
-        {/* Alerts & Notifications */}
-        <div className="flex items-center gap-2 p-1.5 bg-gray-50 rounded-2xl border border-gray-100">
-           <button className="p-2.5 text-gray-500 hover:text-[#9b1d20] hover:bg-white rounded-xl transition-all duration-200 relative group">
-             <Bell className="w-5 h-5" />
-             <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-red-600 border-2 border-gray-50 rounded-full shadow-sm group-hover:scale-125 transition-transform" />
-           </button>
-           <button className="p-2.5 text-gray-500 hover:text-[#9b1d20] hover:bg-white rounded-xl transition-all duration-200 group">
-             <Activity className="w-5 h-5" />
-           </button>
-        </div>
+
 
         {/* Profile Integrated Menu */}
         <div className="relative">

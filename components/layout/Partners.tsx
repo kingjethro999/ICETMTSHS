@@ -1,5 +1,5 @@
 "use client"
-const partners = ["MJMR", "MJN", "IJRBT", "IJMHS", "IJAMDR", "IJFDC", "IJEISSAH", "UBB"];
+const partners = ["MJN", "IJRBT", "IJMHS", "IJAMDR", "IJFDC", "IJEISSAH", "UBB"];
 
 export default function Partners() {
   return (

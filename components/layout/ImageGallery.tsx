@@ -4,20 +4,20 @@ import Link from "next/link";
 
 const galleryImages = [
   {
-    src: "https://icetmtshs.lincoln.edu.my/wp-content/uploads/2025/05/IMG-20250506-WA0018.jpg",
-    alt: "Conference gallery image 1",
+    src: "https://images.unsplash.com/photo-1576091160550-217359f4ecf8?auto=format&fit=crop&q=80&w=800",
+    alt: "Healthcare Innovation",
   },
   {
-    src: "https://icetmtshs.lincoln.edu.my/wp-content/uploads/2025/05/IMG-20250506-WA0014.jpg",
-    alt: "Conference gallery image 2",
+    src: "https://images.unsplash.com/photo-1505751172107-573225a92702?auto=format&fit=crop&q=80&w=800",
+    alt: "Medical Research",
   },
   {
-    src: "https://icetmtshs.lincoln.edu.my/wp-content/uploads/2025/05/IMG-20250506-WA0006.jpg",
-    alt: "Conference gallery image 3",
+    src: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800",
+    alt: "Scientific Discovery",
   },
   {
-    src: "https://icetmtshs.lincoln.edu.my/wp-content/uploads/2024/02/1F6A2143-scaled.jpg",
-    alt: "Conference gallery image 4",
+    src: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&q=80&w=800",
+    alt: "Academic Collaboration",
   },
 ];
 
@@ -32,7 +32,7 @@ export const ImageGallery: React.FC = () => {
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Explore moments from our previous conferences and get a glimpse of
-            what to expect at ICETMTSHS 2026
+            what to expect at ICSHSM 2026
           </p>
         </div>
 

@@ -6,9 +6,9 @@ import { SquigglyLine } from "@/components/ui/SquigglyLine";
 import { Users } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Key Members | ICETMTSHS 2026",
+  title: "Key Members | ICSHSM 2026",
   description:
-    "Meet the key members of the ICETMTSHS 2026 organizing committee — distinguished academics and leaders from Lincoln University College, Malaysia.",
+    "Meet the key members of the ICSHSM 2026 organizing committee — distinguished academics and leaders from Lincoln University College, Nigeria.",
 };
 
 export default function KeyMembersPage() {
@@ -21,7 +21,7 @@ export default function KeyMembersPage() {
             <div className="flex items-center gap-3 mb-4">
               <Users className="text-[#9b1d20]" size={24} />
               <span className="text-sm font-semibold uppercase tracking-widest text-[#9b1d20]">
-                ICETMTSHS 2026
+                ICSHSM 2026
               </span>
             </div>
             <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">
@@ -31,8 +31,8 @@ export default function KeyMembersPage() {
             <SquigglyLine />
             <p className="mt-4 text-gray-600 max-w-2xl leading-relaxed">
               Meet the distinguished academics, leaders, and professionals who
-              form the backbone of the ICETMTSHS 2026 organizing committee at
-              Lincoln University College, Malaysia.
+              form the backbone of the ICSHSM 2026 organizing committee at
+              Lincoln University College, Nigeria.
             </p>
           </div>
         </div>

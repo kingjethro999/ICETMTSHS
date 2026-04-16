@@ -3,8 +3,8 @@ import { CallForPapersContent } from "@/components/features/call-for-papers/Call
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Call For Papers | ICETMTSHS 2026",
-  description: "Invitation to researchers for submission of abstracts for the 3rd International Conference on Management, Technology, Social and Health Sciences.",
+  title: "Call For Papers | ICSHSM 2026",
+  description: "Invitation to researchers for submission of abstracts for the 1st International Conference on Sustainable Healthcare and Health Systems Management.",
 };
 
 export default function CallForPapersPage() {

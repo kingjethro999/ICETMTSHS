@@ -38,7 +38,7 @@ export function AdminHeader() {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-gray-400">ICETMTSHS 2026 Panel</span>
+              <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-gray-400">ICSHSM 2026 Panel</span>
               <div className="w-1 h-1 bg-gray-300 rounded-full" />
               <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-[#9b1d20]">Official Admin Control</span>
             </div>

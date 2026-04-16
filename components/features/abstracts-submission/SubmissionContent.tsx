@@ -37,8 +37,8 @@ export const SubmissionContent: React.FC = () => {
 
   return (
     <div className="max-w-4xl max-w-[1000px] w-full px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-[#e26955] text-4xl sm:text-5xl font-bold tracking-tight mb-2">
-        Abstracts Submission For ICETMTSHS 2026
+      <h1 className="text-[#9b1d20] text-4xl sm:text-5xl font-bold tracking-tight mb-2">
+        Abstract Submission For ICSHSM 2026
       </h1>
       
       <SquigglyLine />
@@ -50,8 +50,8 @@ export const SubmissionContent: React.FC = () => {
 
         <ContactBlock
           label="For further details contact:"
-          names="Prof. Datin Dr. Hafizah Che Hassan / Prof. Dr. Idris A. Ahmed"
-          emails="(icetmtshs@lincoln.edu.my/idrisahmed@lincoln.edu.my)"
+          names="Prof. Dr. Idris A. Ahmed"
+          emails="(admin@icshsm.org)"
         />
 
         <SubmissionForm />

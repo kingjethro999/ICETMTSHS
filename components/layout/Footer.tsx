@@ -21,21 +21,13 @@ export default function Footer() {
           <div className="space-y-4 lg:col-span-1">
             {/* Logo */}
             <div className="mb-3">
-              <Image
-                src="https://icetmtshs.lincoln.edu.my/wp-content/uploads/2026/01/Logo-2026.png"
-                alt="ICETMTSHS 2026 Logo"
-                width={300}
-                height={114}
-                className="h-14 w-auto object-contain"
-                unoptimized
-              />
+              <h2 className="text-2xl font-black text-[#9b1d20] tracking-tighter italic">ICSHSM 2026</h2>
             </div>
             <h3 className="text-red-900 font-bold text-sm leading-snug">
-              3rd International Conference on Emerging Trends in Management,
-              Technology, Social and Health Sciences
+              1st International Conference on Sustainable Healthcare and Health Systems Management
             </h3>
             <p className="text-gray-500 text-xs leading-relaxed">
-              &copy; 2026 ICETMTSHS. Organized by Lincoln University College.
+              &copy; 2026 ICSHSM. Organized by Lincoln University College, Nigeria.
             </p>
           </div>
 
@@ -46,9 +38,6 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2">
               <li className="text-gray-600 text-sm font-medium">
-                Prof. Datin Dr. Hafizah Che Hassan
-              </li>
-              <li className="text-gray-600 text-sm font-medium">
                 Prof. Dr. Idris A. Ahmed
               </li>
             </ul>
@@ -56,17 +45,16 @@ export default function Footer() {
               <div className="flex items-start gap-2 text-gray-500 text-xs">
                 <MapPin size={13} className="mt-0.5 flex-shrink-0 text-red-900" />
                 <span className="leading-relaxed">
-                  Lincoln University College Wisma Lincoln, No. 12-18, Jalan SS 6/12,
-                  47301 Petaling Jaya, Selangor D.E., Malaysia
+                  Lincoln University College, Nigeria. Abuja, Nigeria
                 </span>
               </div>
               <div className="flex items-center gap-2 text-gray-500 text-xs">
-                <Mail size={13} className="flex-shrink-0 text-red-900" />
+                <Mail size={13} className="flex-shrink-0 text-[#9b1d20]" />
                 <a
-                  href="mailto:idrisahmed@lincoln.edu.my"
-                  className="hover:text-red-900 transition-colors duration-200"
+                  href="mailto:info@icshsm.org"
+                  className="hover:text-[#9b1d20] transition-colors duration-200"
                 >
-                  idrisahmed@lincoln.edu.my
+                  info@icshsm.org
                 </a>
               </div>
             </div>
@@ -79,32 +67,16 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5">
               <li className="flex items-center gap-2 text-gray-500 text-xs">
-                <Phone size={13} className="flex-shrink-0 text-red-900" />
-                <span>1300 880 111 <span className="text-gray-400">(Malaysia)</span></span>
+                <Phone size={13} className="flex-shrink-0 text-[#9b1d20]" />
+                <span>Contact via Lincoln University College, Nigeria</span>
               </li>
               <li className="flex items-center gap-2 text-gray-500 text-xs">
-                <Phone size={13} className="flex-shrink-0 text-red-900" />
-                <span>+603-7806 3478 <span className="text-gray-400">(International)</span></span>
-              </li>
-              <li className="flex items-center gap-2 text-gray-500 text-xs">
-                <Printer size={13} className="flex-shrink-0 text-red-900" />
-                <span>+603-7806 3479</span>
-              </li>
-              <li className="flex items-center gap-2 text-gray-500 text-xs">
-                <Smartphone size={13} className="flex-shrink-0 text-red-900" />
-                <span>+60 17-604 2393</span>
-              </li>
-              <li className="flex items-center gap-2 text-gray-500 text-xs">
-                <Smartphone size={13} className="flex-shrink-0 text-red-900" />
-                <span>+60 12-690 1393</span>
-              </li>
-              <li className="flex items-center gap-2 text-gray-500 text-xs">
-                <Mail size={13} className="flex-shrink-0 text-red-900" />
+                <Mail size={13} className="flex-shrink-0 text-[#9b1d20]" />
                 <a
-                  href="mailto:icetmtshs@lincoln.edu.my"
-                  className="hover:text-red-900 transition-colors duration-200"
+                  href="mailto:admin@icshsm.org"
+                  className="hover:text-[#9b1d20] transition-colors duration-200"
                 >
-                  icetmtshs@lincoln.edu.my
+                  admin@icshsm.org
                 </a>
               </li>
             </ul>
@@ -116,7 +88,7 @@ export default function Footer() {
               Newsletter
             </h4>
             <p className="text-gray-500 text-xs leading-relaxed">
-              Stay updated with the latest news and announcements from ICETMTSHS 2026.
+                Stay updated with the latest news and announcements from ICSHSM 2026.
             </p>
             <form onSubmit={handleSubmit} className="relative">
               <input

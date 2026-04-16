@@ -11,7 +11,6 @@ interface FormData {
   abstractTitle: string;
   mobileNo: string;
   attendingAs: string;
-  attendanceMode: string;
 }
 
 export const SubmissionForm: React.FC = () => {
@@ -22,11 +21,9 @@ export const SubmissionForm: React.FC = () => {
     abstractTitle: "",
     mobileNo: "",
     attendingAs: "Oral Presenter",
-    attendanceMode: "",
   });
 
   const [files, setFiles] = useState<{
-    employeeId?: File;
     abstract?: File;
   }>({});
 
@@ -43,7 +40,7 @@ export const SubmissionForm: React.FC = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files: uploadedFiles } = e.target;
     if (uploadedFiles?.[0]) {
-      setFiles((prev) => ({ ...prev, [name === "EmployeeIdUpload" ? "employeeId" : "abstract"]: uploadedFiles[0] }));
+      setFiles((prev) => ({ ...prev, abstract: uploadedFiles[0] }));
       if (name === "AbstractUpload") {
         setErrors((prev) => ({ ...prev, abstract: undefined }));
       }
@@ -58,7 +55,6 @@ export const SubmissionForm: React.FC = () => {
     if (!formData.affiliation) newErrors.affiliation = "Affiliation is required";
     if (!formData.abstractTitle) newErrors.abstractTitle = "Abstract Title is required";
     if (!formData.mobileNo) newErrors.mobileNo = "Mobile No. is required";
-    if (!formData.attendanceMode) newErrors.attendanceMode = "Please select attendance mode";
     if (!files.abstract) newErrors.abstract = "Please upload your abstract file";
 
     setErrors(newErrors);
@@ -83,7 +79,7 @@ export const SubmissionForm: React.FC = () => {
       formDataToSend.set("Affiliation", formData.affiliation);
       formDataToSend.set("AbstractTitle", formData.abstractTitle);
       formDataToSend.set("MobileNo", formData.mobileNo);
-      formDataToSend.set("AttendanceMode", formData.attendanceMode);
+      formDataToSend.set("AttendanceMode", "Online"); // Auto-set for virtual conference
       
       // Files are already in the form since they are input type="file"
       
@@ -120,7 +116,7 @@ export const SubmissionForm: React.FC = () => {
 
   return (
     <div className="mt-12">
-      <h3 className="text-2xl font-bold mb-6" style={{ color: "#ff6a00" }}>
+      <h3 className="text-2xl font-bold mb-6 text-[#9b1d20]">
         Submit Your Abstract:
       </h3>
 
@@ -138,21 +134,9 @@ export const SubmissionForm: React.FC = () => {
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500/20 focus:border-[#ff6a00] outline-none transition-all"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#9b1d20]/20 focus:border-[#9b1d20] outline-none transition-all"
                 />
                 {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>}
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Students / Employee ID – Upload (For LUC members only)
-                </label>
-                <input
-                  type="file"
-                  name="EmployeeIdUpload"
-                  onChange={handleFileChange}
-                  className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-[#ff6a00] hover:file:bg-orange-100 transition-all cursor-pointer"
-                />
               </div>
 
               <div>
@@ -164,40 +148,23 @@ export const SubmissionForm: React.FC = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500/20 focus:border-[#ff6a00] outline-none transition-all"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#9b1d20]/20 focus:border-[#9b1d20] outline-none transition-all"
                 />
                 {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  You would be attending as: <span className="text-red-500">*</span>
-                </label>
-                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                  <input
-                    type="radio"
-                    name="attendingAs"
-                    value="Oral Presenter"
-                    checked={formData.attendingAs === "Oral Presenter"}
-                    onChange={handleInputChange}
-                    className="w-4 h-4 text-[#ff6a00] focus:ring-[#ff6a00]"
-                  />
-                  <label className="text-sm text-gray-700">An oral Presenter</label>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Upload your abstract here <span className="text-red-500">*</span>
+                  Mobile No. <span className="text-red-500">*</span>
                 </label>
                 <input
-                  type="file"
-                  name="AbstractUpload"
-                  onChange={handleFileChange}
-                  accept=".doc,.docx"
-                  className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-[#ff6a00] hover:file:bg-orange-100 transition-all cursor-pointer"
+                  type="text"
+                  name="mobileNo"
+                  value={formData.mobileNo}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#9b1d20]/20 focus:border-[#9b1d20] outline-none transition-all"
                 />
-                {errors.abstract && <p className="text-red-500 text-xs mt-1">{errors.abstract}</p>}
+                {errors.mobileNo && <p className="text-red-500 text-xs mt-1">{errors.mobileNo}</p>}
               </div>
             </div>
 
@@ -212,7 +179,7 @@ export const SubmissionForm: React.FC = () => {
                   name="affiliation"
                   value={formData.affiliation}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500/20 focus:border-[#ff6a00] outline-none transition-all"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#9b1d20]/20 focus:border-[#9b1d20] outline-none transition-all"
                 />
                 {errors.affiliation && <p className="text-red-500 text-xs mt-1">{errors.affiliation}</p>}
               </div>
@@ -226,70 +193,37 @@ export const SubmissionForm: React.FC = () => {
                   name="abstractTitle"
                   value={formData.abstractTitle}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500/20 focus:border-[#ff6a00] outline-none transition-all"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#9b1d20]/20 focus:border-[#9b1d20] outline-none transition-all"
                 />
                 {errors.abstractTitle && <p className="text-red-500 text-xs mt-1">{errors.abstractTitle}</p>}
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Mobile No. <span className="text-red-500">*</span>
+                  Upload your abstract here <span className="text-red-500">*</span>
                 </label>
                 <input
-                  type="text"
-                  name="mobileNo"
-                  value={formData.mobileNo}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500/20 focus:border-[#ff6a00] outline-none transition-all"
+                  type="file"
+                  name="AbstractUpload"
+                  onChange={handleFileChange}
+                  accept=".doc,.docx"
+                  className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-[#9b1d20] hover:file:bg-red-100 transition-all cursor-pointer"
                 />
-                {errors.mobileNo && <p className="text-red-500 text-xs mt-1">{errors.mobileNo}</p>}
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  You would be attending the conference <span className="text-red-500">*</span>
-                </label>
-                <div className="flex gap-6 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      id="attPhys"
-                      name="attendanceMode"
-                      value="Physically"
-                      checked={formData.attendanceMode === "Physically"}
-                      onChange={handleInputChange}
-                      className="w-4 h-4 text-[#ff6a00] focus:ring-[#ff6a00]"
-                    />
-                    <label htmlFor="attPhys" className="text-sm text-gray-700">Physically</label>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      id="attOnline"
-                      name="attendanceMode"
-                      value="Online"
-                      checked={formData.attendanceMode === "Online"}
-                      onChange={handleInputChange}
-                      className="w-4 h-4 text-[#ff6a00] focus:ring-[#ff6a00]"
-                    />
-                    <label htmlFor="attOnline" className="text-sm text-gray-700">Online</label>
-                  </div>
-                </div>
-                {errors.attendanceMode && <p className="text-red-500 text-xs mt-1">{errors.attendanceMode}</p>}
+                {errors.abstract && <p className="text-red-500 text-xs mt-1">{errors.abstract}</p>}
               </div>
             </div>
           </div>
 
           <hr className="my-8 border-gray-100" />
 
-          <div className="bg-orange-50/50 p-4 rounded-lg border border-orange-100">
-            <div className="text-orange-800 font-bold mb-2 flex items-center gap-2">
+          <div className="bg-red-50/50 p-4 rounded-lg border border-red-100">
+            <div className="text-[#9b1d20] font-bold mb-2 flex items-center gap-2">
               Note<span className="text-red-500">*</span>
             </div>
             <div className="text-xs text-gray-600 leading-relaxed space-y-1">
               <p>Your abstract will undergo a double-blind peer review by the conference committee within two weeks from its receipt.</p>
               <p>Please make sure you complete the abstract using the template as provided on the website (Template).</p>
-              <p className="font-semibold text-orange-700">Only Microsoft Word (.doc, .docx) file types are allowed to be uploaded.</p>
+              <p className="font-semibold text-[#9b1d20]">Only Microsoft Word (.doc, .docx) file types are allowed to be uploaded.</p>
             </div>
           </div>
 
@@ -304,7 +238,7 @@ export const SubmissionForm: React.FC = () => {
             <Button
               type="submit"
               disabled={status === "loading"}
-              className="px-10 py-4 rounded-full bg-[#ff6a00] hover:bg-[#e65f00] text-white font-black text-xs uppercase tracking-widest transition-all shadow-xl shadow-orange-950/10 hover:scale-105 active:scale-95 disabled:opacity-50"
+              className="px-10 py-4 rounded-full bg-[#9b1d20] hover:bg-[#7a1719] text-white font-black text-xs uppercase tracking-widest transition-all shadow-xl shadow-red-950/10 hover:scale-105 active:scale-95 disabled:opacity-50"
             >
               {status === "loading" ? (
                 <div className="flex items-center gap-2">

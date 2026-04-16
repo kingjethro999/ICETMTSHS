@@ -16,18 +16,18 @@ export interface NavData {
 }
 
 export const navData: NavData = {
-  logo: "ICETMTSHS 2026",
+  logo: "ICSHSM 2026",
   navItems: [
     { label: "Home", href: "/" },
     { 
       label: "Submissions", 
       href: "#",
       subItems: [
-        { label: "Abstracts Submission", href: "/abstracts-submission" },
-        { label: "Abstract Book", href: "/Abstract-book-ICETMTSHS-2025.pdf", isDownload: true }
+        { label: "Abstract Submission", href: "/abstracts-submission" },
+        { label: "Abstract Book", href: "#", isDownload: false }
       ]
     },
-    { label: "Programme", href: "/Programme-Schedule-ICETMTSHS2026.pdf", isDownload: true },
+    { label: "Programme", href: "#", isDownload: false },
     { label: "Call For Papers", href: "/call-for-papers" },
     { label: "Registration Fee", href: "/registration-fee" },
     { label: "Key Members", href: "/key-members" },

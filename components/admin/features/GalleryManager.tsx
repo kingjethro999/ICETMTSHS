@@ -284,16 +284,15 @@ export function GalleryManager({ initialItems }: { initialItems: GalleryItem[] }
               </form>
 
               <div className="pt-4 space-y-4">
-                 <div className="w-full border-t border-gray-50 pt-6">
+                  <div className="w-full border-t border-gray-50 pt-6 opacity-40 pointer-events-none grayscale">
                     <button 
-                      onClick={handleMigration}
-                      disabled={migrating}
-                      className="w-full py-4 border-2 border-[#9b1d20] text-[#9b1d20] rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-red-50 transition-all flex items-center justify-center gap-3"
+                      disabled
+                      className="w-full py-4 border-2 border-gray-200 text-gray-400 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-3"
                     >
-                      {migrating ? <Loader2 className="w-4 h-4 animate-spin" /> : <History className="w-4 h-4" />}
-                      Restore Legacy Files ({legacyImages.length})
+                      <History className="w-4 h-4" />
+                      Legacy Migration Disabled
                     </button>
-                    <p className="text-[9px] text-gray-400 mt-3 text-center font-bold font-mono">Downloads from icetmtshs.lincoln.edu.my</p>
+                    <p className="text-[9px] text-gray-400 mt-3 text-center font-bold font-mono">Server migration successfully completed</p>
                  </div>
               </div>
             </>

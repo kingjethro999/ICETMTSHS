@@ -11,10 +11,10 @@ interface AboutData {
 
 export default function AboutConference({ data }: { data?: AboutData }) {
   const defaults = {
-    heading: "Reimagining the Future: Innovation, Sustainability, and Human-Centric Development.",
-    description: "ICETMTSHS 2026 serves as a prestigious global platform for researchers, academicians, and industry leaders. We aim to foster a collaborative ecosystem where interdisciplinary boundaries are crossed to address the pressing challenges of our era.",
-    partnerTitle: "Lincoln University College & Lincoln Institute of Higher Education",
-    partnerDescription: "Through a strategic partnership between Lincoln University College Malaysia and the Lincoln Institute of Higher Education Australia, this conference bridges the best of Asian and Australian academic excellence to provide a truly international discourse.",
+    heading: "Advancing Sustainable Healthcare: Innovation, Resilience, and Global Health Systems Transformation",
+    description: "Lincoln University College, Nigeria, in collaboration with ********** proudly presents the 1st International Conference on Sustainable Healthcare and Health Systems Management (ICSHSM 2026). ICSHSM 2026 aims to serve as a premier global platform bringing together academicians, healthcare professionals, policymakers, researchers, and industry experts to explore innovative and sustainable solutions in healthcare delivery and health systems management.",
+    partnerTitle: "Lincoln University College, Nigeria",
+    partnerDescription: "In Collaboration with: *******",
     year: "2026"
   };
 

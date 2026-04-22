@@ -20,7 +20,7 @@ export async function sendApprovalEmail(to: string, fullName: string) {
             Venue: Virtual Platform (Lincoln University College, Nigeria)
           </p>
           <p style="margin-top: 30px; font-size: 0.9em; color: #666;">
-            If you have any questions, please reply to this email or contact us at <a href="mailto:admin@icshsm.org">admin@icshsm.org</a>.
+            If you have any questions, please reply to this email or contact us at <a href="mailto:idrisahmed@lincoln.edu.my">idrisahmed@lincoln.edu.my</a>.
           </p>
           <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;" />
           <p style="font-size: 0.8em; color: #999; text-align: center;">

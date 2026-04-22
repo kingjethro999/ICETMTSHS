@@ -66,7 +66,7 @@ export default function ContactPage() {
               <ContactInfoCard 
                 icon={Mail}
                 title="Inquiries"
-                details={["info@icshsm.org"]}
+                details={["icshsm@lincoln.edu.my"]}
               />
 
               <ContactInfoCard 
@@ -80,7 +80,7 @@ export default function ContactPage() {
               <ContactInfoCard 
                 icon={Mail}
                 title="Email Address"
-                details={["admin@icshsm.org"]}
+                details={["idrisahmed@lincoln.edu.my"]}
               />
             </div>
           </div>

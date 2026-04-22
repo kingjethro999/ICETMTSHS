@@ -51,7 +51,7 @@ export const SubmissionContent: React.FC = () => {
         <ContactBlock
           label="For further details contact:"
           names="Prof. Dr. Idris A. Ahmed"
-          emails="(admin@icshsm.org)"
+          emails="(idrisahmed@lincoln.edu.my)"
         />
 
         <SubmissionForm />

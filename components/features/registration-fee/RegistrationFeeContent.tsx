@@ -111,7 +111,7 @@ export const RegistrationFeeContent: React.FC = () => {
       </motion.div>
 
       {/* Policy & Important Notes Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
         {/* Transaction Fees */}
         <div className="bg-red-50/50 rounded-2xl border border-red-100 p-8">
           <div className="flex items-start gap-4">
@@ -152,6 +152,47 @@ export const RegistrationFeeContent: React.FC = () => {
                 <Info size={16} />
                 View Eligible Economies List
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bank Payment Details Section */}
+      <div className="bg-gray-900 rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden shadow-2xl">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 blur-3xl -mr-32 -mt-32 rounded-full"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-red-600/10 blur-3xl -ml-32 -mb-32 rounded-full"></div>
+        
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h3 className="text-2xl sm:text-3xl font-black mb-4">Bank Payment Details</h3>
+            <p className="text-gray-400 text-sm sm:text-base leading-relaxed mb-6">
+              Please make your registration payment to the following account. After payment, 
+              kindly keep your proof of payment for the registration submission process.
+            </p>
+            <div className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/10">
+              <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
+                <AlertCircle size={20} className="text-white" />
+              </div>
+              <p className="text-xs font-medium text-gray-300">
+                Ensure you use your full name as the payment reference.
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
+                <p className="text-[10px] text-red-500 font-black uppercase tracking-[0.2em] mb-1">Bank Name</p>
+                <p className="text-xl font-bold">Zenith Bank</p>
+              </div>
+              <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
+                <p className="text-[10px] text-red-500 font-black uppercase tracking-[0.2em] mb-1">Account Number</p>
+                <p className="text-xl font-bold tracking-widest">1227957953</p>
+              </div>
+            </div>
+            <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
+              <p className="text-[10px] text-red-500 font-black uppercase tracking-[0.2em] mb-1">Account Name</p>
+              <p className="text-xl font-bold">Lincoln ODL</p>
             </div>
           </div>
         </div>

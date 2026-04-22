@@ -23,6 +23,7 @@ export const ParticipantRegistrationForm: React.FC = () => {
     
     const formData = new FormData(e.currentTarget);
     formData.append("SubmissionType", "Participant");
+    formData.append("AttendanceMode", "Online"); // Auto-set for virtual conference
 
     const result = await submitRegistration(formData);
     
@@ -89,43 +90,15 @@ export const ParticipantRegistrationForm: React.FC = () => {
             />
           </div>
 
-          <div className="space-y-2 p-5 border border-dashed border-gray-300 rounded-xl bg-gray-50/50">
-            <div className="mb-2">
-              <label htmlFor="EmployeeIdUpload" className="text-sm font-bold text-gray-800 block">
-                Students / Employee ID - Upload
-              </label>
-              <span className="text-xs text-gray-500 font-medium">
-                (For LUC members only) Allowed: PDF/JPG/PNG
-              </span>
-            </div>
-            <div className="relative">
-              <input
-                type="file"
-                id="EmployeeIdUpload"
-                name="EmployeeIdUpload"
-                accept=".pdf,.png,.jpg,.jpeg"
-                onChange={(e) => handleFileChange(e, 'id')}
-                className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#9b1d20]/10 file:text-[#9b1d20] hover:file:bg-[#9b1d20]/20 transition-all cursor-pointer"
-              />
-              {selectedFiles.id && (
-                <div className="mt-2 flex items-center gap-2 text-emerald-600 font-bold text-[10px] uppercase tracking-widest">
-                  <CheckCircle2 className="w-3 h-3" />
-                  {selectedFiles.id}
-                </div>
-              )}
-            </div>
-          </div>
-
           <div className="space-y-2">
             <label htmlFor="EmailAlt" className="text-sm font-bold text-gray-800">
-              Alternative Email <span className="text-red-500">*</span>
+              Alternative Email <span className="text-gray-400 font-normal">(optional)</span>
             </label>
             <input
               type="email"
               id="EmailAlt"
               name="EmailAlt"
               maxLength={200}
-              required
               className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9b1d20]/20 focus:border-[#9b1d20] transition-all"
               placeholder="backup@email.com"
             />
@@ -196,7 +169,7 @@ export const ParticipantRegistrationForm: React.FC = () => {
 
           <div className="space-y-2">
             <label htmlFor="MobileNo" className="text-sm font-bold text-gray-800">
-              Mobile No <span className="text-red-500">*</span>
+              Mobile No (Contact Number) <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -205,40 +178,8 @@ export const ParticipantRegistrationForm: React.FC = () => {
               maxLength={50}
               required
               className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9b1d20]/20 focus:border-[#9b1d20] transition-all"
-              placeholder="+60 12-345 6789"
+              placeholder="+234 ..."
             />
-          </div>
-
-          <div className="space-y-3">
-            <label className="text-sm font-bold text-gray-800">
-              I will be attending the conference <span className="text-red-500">*</span>
-            </label>
-            <div className="flex gap-6 items-center">
-              <label className="flex items-center gap-2 cursor-pointer group">
-                <input
-                  type="radio"
-                  name="AttendanceMode"
-                  value="Physically"
-                  required
-                  className="w-4 h-4 text-[#9b1d20] focus:ring-[#9b1d20] border-gray-300"
-                />
-                <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
-                  Physically
-                </span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer group">
-                <input
-                  type="radio"
-                  name="AttendanceMode"
-                  value="Online"
-                  required
-                  className="w-4 h-4 text-[#9b1d20] focus:ring-[#9b1d20] border-gray-300"
-                />
-                <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
-                  Online
-                </span>
-              </label>
-            </div>
           </div>
 
           <div className="space-y-2">

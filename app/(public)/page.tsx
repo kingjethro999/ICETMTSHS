@@ -1,7 +1,7 @@
 import { HeroSection } from "@/components/layout/HeroSection";
-import { AccreditationSection } from "@/components/layout/AccreditationSection";
 import { ConferenceOverview } from "@/components/layout/ConferenceOverview";
 import AboutConference from "@/components/layout/AboutConference";
+import { ConferenceObjectives } from "@/components/layout/ConferenceObjectives";
 import { ImageGallery } from "@/components/layout/ImageGallery";
 import CoreFocus from "@/components/layout/CoreFocus";
 import Partners from "@/components/layout/Partners";
@@ -14,9 +14,9 @@ export default async function Home() {
   return (
     <>
       <HeroSection data={content.hero} />
-      <AccreditationSection />
       <ConferenceOverview />
       <AboutConference data={content.about} />
+      <ConferenceObjectives />
       <ImageGallery />
       <CoreFocus />
       <Partners />

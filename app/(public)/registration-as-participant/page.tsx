@@ -5,8 +5,8 @@ import { ClipboardEdit } from "lucide-react";
 import { ParticipantRegistrationForm } from "@/components/features/registration/ParticipantRegistrationForm";
 
 export const metadata: Metadata = {
-  title: "Participant Registration | ICETMTSHS 2026",
-  description: "Register as a participant for the ICETMTSHS 2026 conference.",
+  title: "Participant Registration | ICSHSM 2026",
+  description: "Register as a participant for the ICSHSM 2026 conference.",
 };
 
 export default function RegistrationAsParticipantPage() {
@@ -23,7 +23,7 @@ export default function RegistrationAsParticipantPage() {
               </span>
             </div>
             <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">
-              ICETMTSHS 2026 <span className="text-[#9b1d20]">Registration</span>
+              ICSHSM 2026 <span className="text-[#9b1d20]">Registration</span>
             </h1>
             <SquigglyLine />
             <p className="mt-4 text-gray-600 max-w-2xl text-lg font-medium">

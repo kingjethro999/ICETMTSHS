@@ -53,11 +53,11 @@ export const CallForPapersContent: React.FC = () => {
           <section className="relative pl-8 border-l-4 border-[#e26955]">
             <p className="text-xl text-gray-700 leading-relaxed font-medium">
               Researchers and practitioners are invited to submit their abstracts
-              for the upcoming 3rd International Conference.
+              for the upcoming 1st International Conference (ICSHSM 2026).
             </p>
             <div className="mt-4 flex items-center gap-3 text-sm font-semibold text-[#e26955] uppercase tracking-widest">
               <CheckCircle2 size={18} />
-              Presentation Mode: Oral (Physical & Online)
+              Presentation Mode: Oral (Virtual Platform)
             </div>
           </section>
 
@@ -69,13 +69,13 @@ export const CallForPapersContent: React.FC = () => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <DeadlineCard
-                label="Registration & Abstract"
-                date="22nd March 2025"
-                description="Final date for standard registration and abstract submission for review."
+                label="Abstract Submission"
+                date="30th August 2026"
+                description="Final date for abstract submission for review."
               />
               <DeadlineCard
-                label="Full Article"
-                date="9th April 2025"
+                label="Full Paper Submission"
+                date="31st September 2026"
                 description="Deadline for full article submission for journal publication track."
               />
             </div>

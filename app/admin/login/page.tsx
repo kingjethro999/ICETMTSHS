@@ -84,11 +84,11 @@ export default function LoginPage() {
                    <p className="text-[10px] font-black text-white uppercase tracking-[0.25em]">Admin Portal v2026</p>
                  </div>
                  <h2 className="text-4xl text-white font-black tracking-tight leading-[1.1]">
-                   Managing the Future of <span className="text-red-200">Global Engineering</span>
+                   Managing the Future of <span className="text-red-200">Sustainable Healthcare</span>
                  </h2>
               </div>
               <p className="text-base text-red-100 mt-6 leading-relaxed opacity-80 max-w-sm">
-                Secure gateway for authorized administrative staff only. Manage ICETMTSHS 2026 registrations, gallery, and core content settings.
+                Secure gateway for authorized administrative staff only. Manage ICSHSM 2026 registrations, gallery, and core content settings.
               </p>
            </div>
 
@@ -239,9 +239,7 @@ export default function LoginPage() {
           
       {/* Footer Branding */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-6 opacity-40">
-         <Image src="https://icetmtshs.lincoln.edu.my/wp-content/uploads/2026/01/Logo-2026.png" alt="Lincoln" width={120} height={40} className="grayscale brightness-0" unoptimized />
-         <div className="w-px h-6 bg-gray-300" />
-         <p className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">© 2026 Conference Hub • Lincoln University College</p>
+         <p className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">© 2026 ICSHSM • Lincoln University College, Nigeria</p>
       </div>
     </div>
   );

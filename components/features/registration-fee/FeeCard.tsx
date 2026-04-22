@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils/cn";
 export interface FeeCardProps {
   category: string;
   subCategory?: string;
-  malaysianFee: string;
+  localFee: string;
   internationalFee?: string;
   iconType: "delegate" | "scholar" | "student";
 }
@@ -20,7 +20,7 @@ const iconMap = {
 export const FeeCard: React.FC<FeeCardProps> = ({
   category,
   subCategory,
-  malaysianFee,
+  localFee,
   internationalFee,
   iconType,
 }) => {
@@ -29,11 +29,11 @@ export const FeeCard: React.FC<FeeCardProps> = ({
   return (
     <div className="group relative bg-white rounded-2xl border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden">
       {/* Accent Header */}
-      <div className="h-2 bg-gradient-to-r from-[#e26955] to-orange-400" />
+      <div className="h-2 bg-gradient-to-r from-[#9b1d20] to-red-600" />
       
       <div className="p-8">
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center text-[#e26955] group-hover:scale-110 transition-transform">
+          <div className="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center text-[#9b1d20] group-hover:scale-110 transition-transform">
             <Icon size={28} />
           </div>
           <div>
@@ -47,29 +47,29 @@ export const FeeCard: React.FC<FeeCardProps> = ({
         </div>
 
         <div className="space-y-4">
-          {/* Malaysian Fee */}
-          <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 group-hover:bg-orange-50/30 transition-colors">
+          {/* Local Fee */}
+          <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 group-hover:bg-red-50/30 transition-colors">
             <div className="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">
-              <MapPin size={14} className="text-orange-400" />
-              Malaysian
+              <MapPin size={14} className="text-[#9b1d20]" />
+              Local Participant
             </div>
             <div className="text-3xl font-extrabold text-gray-900">
-              <span className="text-sm font-medium text-gray-500 mr-1">MYR</span>
-              {malaysianFee}
+              <span className="text-sm font-medium text-gray-500 mr-1">₦</span>
+              {localFee}
             </div>
           </div>
 
           {/* International Fee */}
           {internationalFee && (
-            <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 group-hover:bg-orange-50/30 transition-colors">
+            <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 group-hover:bg-red-50/30 transition-colors">
               <div className="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">
-                <Globe size={14} className="text-[#e26955]" />
+                <Globe size={14} className="text-[#9b1d20]" />
                 International
               </div>
               <div className="text-3xl font-extrabold text-gray-900">
                 <span className="text-sm font-medium text-gray-500 mr-1">USD</span>
                 {internationalFee}
-                <span className="text-[#e26955] text-lg">*</span>
+                <span className="text-[#9b1d20] text-lg">*</span>
               </div>
             </div>
           )}

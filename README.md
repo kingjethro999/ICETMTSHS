@@ -1,4 +1,4 @@
-# ICETMTSHS 2026
+# ICSHSM 2026
 
 The official website application for the **International Conference on Emerging Trends in Management, Technology, Social & Health Sciences 2026**, organized by Lincoln University College, Malaysia.
 
@@ -62,4 +62,4 @@ It utilizes a clean, bespoke "Red and White" design system conforming to the off
 - Ensure native forms retain robust error states and validation flags. 
 
 ---
-*Developed by the ICETMTSHS Digital Operations Team / Lincoln University College.*
+*Developed by the ICSHSM Digital Operations Team / Lincoln University College, Nigeria.*

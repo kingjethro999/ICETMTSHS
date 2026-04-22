@@ -51,10 +51,10 @@ export default function Footer() {
               <div className="flex items-center gap-2 text-gray-500 text-xs">
                 <Mail size={13} className="flex-shrink-0 text-[#9b1d20]" />
                 <a
-                  href="mailto:info@icshsm.org"
+                  href="mailto:icshsm@lincoln.edu.my"
                   className="hover:text-[#9b1d20] transition-colors duration-200"
                 >
-                  info@icshsm.org
+                  icshsm@lincoln.edu.my
                 </a>
               </div>
             </div>
@@ -73,10 +73,10 @@ export default function Footer() {
               <li className="flex items-center gap-2 text-gray-500 text-xs">
                 <Mail size={13} className="flex-shrink-0 text-[#9b1d20]" />
                 <a
-                  href="mailto:admin@icshsm.org"
+                  href="mailto:idrisahmed@lincoln.edu.my"
                   className="hover:text-[#9b1d20] transition-colors duration-200"
                 >
-                  admin@icshsm.org
+                  idrisahmed@lincoln.edu.my
                 </a>
               </li>
             </ul>

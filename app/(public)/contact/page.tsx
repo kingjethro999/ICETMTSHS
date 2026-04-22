@@ -13,8 +13,8 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Contact Us | ICETMTSHS 2026",
-  description: "Get in touch with the ICETMTSHS 2026 organizing committee. Contact details for Prof. Datin Dr. Hafizah Che Hassan and Prof. Dr. Idris A. Ahmed.",
+  title: "Contact Us | ICSHSM 2026",
+  description: "Get in touch with the ICSHSM 2026 organizing committee. Contact details for Prof. Dr. Idris A. Ahmed.",
 };
 
 export default function ContactPage() {
@@ -31,7 +31,7 @@ export default function ContactPage() {
             <div className="mt-6 flex items-center gap-3 text-gray-800">
               <User className="text-[#9b1d20]" size={20} />
               <p className="text-lg font-medium">
-                Prof. Datin Dr. Hafizah Che Hassan / Prof. Dr. Idris A. Ahmed
+                Prof. Dr. Idris A. Ahmed
               </p>
             </div>
           </div>
@@ -49,9 +49,8 @@ export default function ContactPage() {
               icon={MapPin}
               title="Our Location"
               details={[
-                "Lincoln University College, Wisma Lincoln,",
-                "No. 12-18, Jalan SS 6/12, 47301 Petaling Jaya,",
-                "Selangor D. E., Malaysia"
+                "Lincoln University College, Nigeria",
+                "Abuja, Nigeria"
               ]}
             />
 
@@ -60,30 +59,28 @@ export default function ContactPage() {
                 icon={Phone}
                 title="Office Phone"
                 details={[
-                  "Malaysia: 1300 880 111",
-                  "International: +603-7806 3478"
+                  "Contact via Lincoln University College, Nigeria"
                 ]}
               />
 
               <ContactInfoCard 
-                icon={Printer}
-                title="FAX"
-                details={["+603-7806 3479"]}
+                icon={Mail}
+                title="Inquiries"
+                details={["info@icshsm.org"]}
               />
 
               <ContactInfoCard 
                 icon={Smartphone}
-                title="Mobile (H/p)"
+                title="Contact"
                 details={[
-                  "+60 17-604 2393",
-                  "+60 12-690 1393"
+                  "Prof. Dr. Idris A. Ahmed",
                 ]}
               />
 
               <ContactInfoCard 
                 icon={Mail}
                 title="Email Address"
-                details={["icetmtshs@lincoln.edu.my"]}
+                details={["admin@icshsm.org"]}
               />
             </div>
           </div>

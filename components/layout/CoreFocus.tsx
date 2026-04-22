@@ -9,34 +9,46 @@ import {
 
 const tracks = [
   {
-    icon: Briefcase,
-    title: "Management",
+    icon: Leaf,
+    title: "Sustainable Healthcare Systems",
     description:
-      "Exploring next-generation leadership, digital economies, and sustainable business models in a post-globalization world.",
+      "Green practices, environmental sustainability, and climate change resilience.",
+  },
+  {
+    icon: Briefcase,
+    title: "Health Systems Management",
+    description:
+      "Leadership, governance, strategic planning, and performance management.",
   },
   {
     icon: Microscope,
-    title: "Technology",
+    title: "Digital Health and Innovation",
     description:
-      "Advancements in AI, blockchain, and green technologies driving industrial revolution 5.0 and digital transformation.",
+      "Artificial Intelligence, telemedicine, and digital transformation.",
   },
   {
     icon: Users,
-    title: "Social Sciences",
+    title: "Public Health and Global Health",
     description:
-      "Understanding social dynamics, policy impact, and the human element in an increasingly automated society.",
+      "Pandemic preparedness, health equity, and access.",
   },
   {
     icon: HeartPulse,
-    title: "Health Sciences",
+    title: "Healthcare Quality and Patient Safety",
     description:
-      "Innovations in clinical research, community health, and the integration of precision medicine for global wellness.",
+      "Improvement frameworks and patient-centered care.",
   },
   {
-    icon: Leaf,
-    title: "T&CM",
+    icon: Briefcase,
+    title: "Health Economics and Policy",
     description:
-      "T&CM include Traditional Indian Medicine, Homeopathy, Chinese Medicine, Malay Medicine, Islamic Medical Practice, Osteopathy, and Chiropractic",
+      "Financing, resource allocation, and policy development.",
+  },
+  {
+    icon: HeartPulse,
+    title: "Integrative and Complementary Medicine",
+    description:
+      "Holistic and personalized healthcare.",
   },
 ];
 
@@ -52,25 +64,16 @@ export default function ThematicTracks() {
           </div>
           <p className="tracks-subtitle">
             Interdisciplinary excellence across five primary domains.
+            Interdisciplinary excellence across seven primary domains.
           </p>
         </div>
 
         {/* Divider */}
         <div className="tracks-divider" />
 
-        {/* Top Row — 3 cards */}
-        <div className="tracks-grid tracks-grid-3">
-          {tracks.slice(0, 3).map((track) => (
-            <TrackCard key={track.title} {...track} />
-          ))}
-        </div>
-
-        {/* Divider */}
-        <div className="tracks-divider" />
-
-        {/* Bottom Row — 2 cards */}
-        <div className="tracks-grid tracks-grid-2">
-          {tracks.slice(3).map((track) => (
+        {/* Flexible Grid for 7 items */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
+          {tracks.map((track) => (
             <TrackCard key={track.title} {...track} />
           ))}
         </div>

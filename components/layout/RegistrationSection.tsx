@@ -20,10 +20,8 @@ interface FeesContent {
 
 export default function RegistrationSection({ feesData }: { feesData?: FeesContent }) {
   const defaultRates = [
-    { type: "Presenter (Local)", early: "MYR 500", normal: "MYR 600" },
-    { type: "Presenter (International)", early: "USD 150", normal: "USD 200" },
-    { type: "Participant (Local)", early: "MYR 300", normal: "MYR 400" },
-    { type: "Participant (International)", early: "USD 100", normal: "USD 120" }
+    { type: "Delegates (Nigeria)", early: "₦100,000", normal: "₦100,000" },
+    { type: "Delegates (International)", early: "USD 100", normal: "USD 100" },
   ];
 
   const rates = feesData?.rates || defaultRates;
@@ -59,11 +57,23 @@ export default function RegistrationSection({ feesData }: { feesData?: FeesConte
         </div>
 
         {/* Publication Information */}
-        <div className="publication-info mt-12 bg-white/50 backdrop-blur-md rounded-3xl p-8 border border-gray-100 max-w-3xl mx-auto shadow-inner text-left">
-          <p className="publication-text font-medium text-gray-600 leading-relaxed italic">
-            "The extended versions of the selected papers presented at the conference will be published (if accepted after review) in high-impact international journals."
-          </p>
+        {/* Payment Details Card */}
+        <div className="mt-8 max-w-xl mx-auto bg-[#9b1d20] text-white p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
+           <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-white/20 transition-all duration-700" />
+           <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-60 mb-4">Official Payment Account</p>
+           <h3 className="text-2xl font-black mb-6 tracking-tight">Zenith Bank</h3>
+           <div className="space-y-4">
+              <div className="flex justify-between items-center border-b border-white/20 pb-2">
+                 <span className="text-[10px] font-bold uppercase opacity-60">Account Name</span>
+                 <span className="font-black text-sm">Lincoln ODL</span>
+              </div>
+              <div className="flex justify-between items-center">
+                 <span className="text-[10px] font-bold uppercase opacity-60">Account Number</span>
+                 <span className="text-2xl font-black tracking-tighter">1227957953</span>
+              </div>
+           </div>
         </div>
+
       </section>
 
       {/* ── Venue & Contact ── */}
@@ -72,10 +82,9 @@ export default function RegistrationSection({ feesData }: { feesData?: FeesConte
           {/* Left: Text */}
           <div className="contact-text">
             <div className="section-label crimson">VENUE &amp; CONTACT</div>
-            <h2 className="contact-title">Get in Touch</h2>
+            <h2 className="contact-title">Virtual Platform</h2>
             <p className="contact-description">
-              Summit Hotel Subang USJ, Malaysia. Join us in the heart of
-              Selangor&apos;s academic and industrial hub.
+              Organized by Lincoln University College, Nigeria. Join us from anywhere in the world on our interactive global virtual platform.
             </p>
 
             <div className="contact-items">
@@ -86,10 +95,10 @@ export default function RegistrationSection({ feesData }: { feesData?: FeesConte
                 <div>
                   <p className="contact-item-label">EMAIL INQUIRY</p>
                   <a
-                    href="mailto:icetmtshs@lincoln.edu.my"
+                    href="mailto:admin@icshsm.org"
                     className="contact-item-value"
                   >
-                    icetmtshs@lincoln.edu.my
+                    admin@icshsm.org
                   </a>
                 </div>
               </div>
@@ -101,7 +110,7 @@ export default function RegistrationSection({ feesData }: { feesData?: FeesConte
                 <div>
                   <p className="contact-item-label">CONFERENCE SECRETARIAT</p>
                   <p className="contact-item-value">
-                    +60 123 456 789 / +60 987 654 321
+                    Contact: Prof. Dr. Idris A. Ahmed
                   </p>
                 </div>
               </div>
@@ -109,18 +118,14 @@ export default function RegistrationSection({ feesData }: { feesData?: FeesConte
           </div>
 
           {/* Right: Map placeholder */}
-          <div className="map-wrap">
-            <div
-              className="map-bg shadow-inner bg-gray-200"
-              aria-label="Map showing Summit Hotel Subang USJ"
-            >
-              <div className="map-grid h-full" />
-              <div className="map-pin-card shadow-2xl border border-gray-100">
-                <MapPin size={28} className="map-pin-icon" strokeWidth={1.8} />
-                <p className="map-hotel font-black text-[#9b1d20]">Summit Hotel Subang USJ</p>
-                <p className="map-city text-[10px] font-black uppercase tracking-widest text-gray-400">SUBANG JAYA, MALAYSIA</p>
-              </div>
-            </div>
+          <div className="map-wrap flex items-center justify-center bg-gray-50 border border-gray-100">
+             <div className="text-center p-12">
+                <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                   <MapPin size={32} className="text-[#9b1d20]" />
+                </div>
+                <h3 className="text-2xl font-black text-gray-900 mb-2">Virtual Platform</h3>
+                <p className="text-sm font-bold text-gray-500 uppercase tracking-widest">Abuja, Nigeria Focal Point</p>
+             </div>
           </div>
         </div>
       </section>

@@ -6,8 +6,8 @@ import { Camera, ImageOff } from "lucide-react";
 import { getGalleryItems } from "@/lib/actions/public";
 
 export const metadata: Metadata = {
-  title: "Gallery | ICETMTSHS 2026",
-  description: "View the gallery of ICETMTSHS 2024 and our organizing committee events.",
+  title: "Gallery | ICSHSM 2026",
+  description: "View the gallery of previous ICSHSM events and our organizing committee.",
 };
 
 export default async function GalleryPage() {
@@ -30,7 +30,7 @@ export default async function GalleryPage() {
             </h1>
             <SquigglyLine />
             <p className="mt-4 text-gray-600 max-w-2xl text-lg font-medium">
-              ICETMTSHS Official Gallery & Scholarly Archives
+              ICSHSM Official Gallery & Scholarly Archives
             </p>
           </div>
         </div>
@@ -47,7 +47,7 @@ export default async function GalleryPage() {
               >
                 <Image
                   src={img.image_url}
-                  alt={img.caption || `ICETMTSHS Gallery Image ${index + 1}`}
+                  alt="Accreditation and ranking logos for international standards and research excellence"
                   fill
                   sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"

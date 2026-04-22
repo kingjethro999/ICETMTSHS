@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ICETMTSHS 2026",
+  title: "ICSHSM 2026",
   description:
-    "International Conference on Engineering, Technology, Management, Social Sciences and Humanities 2026",
+    "1st International Conference on Sustainable Healthcare and Health Systems Management (ICSHSM) 2026",
   // Use the local favicon.ico that already exists in /app — eliminates
   // two remote HTTP round-trips to the slow WordPress server on every page load.
   icons: {
@@ -40,8 +40,7 @@ export default function RootLayout({
         This shaves ~200–400 ms off first external-image load on cold connections.
       */}
       <head>
-        <link rel="preconnect" href="https://icetmtshs.lincoln.edu.my" />
-        <link rel="dns-prefetch" href="https://icetmtshs.lincoln.edu.my" />
+        {/* Preconnect to media origins if needed */}
       </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

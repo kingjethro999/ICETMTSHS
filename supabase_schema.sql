@@ -1,4 +1,4 @@
--- Conference OS Schema (ICETMTSHS 2026)
+-- Conference OS Schema (ICSHSM 2026)
 
 -- 1. Profiles (Admins)
 CREATE TABLE IF NOT EXISTS public.profiles (

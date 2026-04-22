@@ -74,7 +74,7 @@ export default function SettingsPage() {
                     </div>
                     <div>
                       <h2 className="text-2xl font-black text-gray-900 leading-tight">General Global Configuration</h2>
-                      <p className="text-sm font-bold text-gray-400 mt-2 uppercase tracking-widest scale-x-90 origin-left">Basic settings for the ICETMTSHS platform</p>
+                      <p className="text-sm font-bold text-gray-400 mt-2 uppercase tracking-widest scale-x-90 origin-left">Basic settings for the ICSHSM 2026 platform</p>
                     </div>
                   </div>
                   <span className="px-5 py-2 bg-red-50 text-[#9b1d20] rounded-full text-[10px] font-black uppercase tracking-widest border border-red-100 shadow-sm">Updated Today</span>
@@ -86,7 +86,7 @@ export default function SettingsPage() {
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1 flex items-center gap-2">
                            <Layout className="w-3 h-3" /> Event Full Title
                         </label>
-                        <input type="text" className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl font-bold focus:outline-none focus:ring-4 focus:ring-red-100/30 transition-all" defaultValue="ICETMTSHS 2026 at Lincoln University" />
+                        <input type="text" className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl font-bold focus:outline-none focus:ring-4 focus:ring-red-100/30 transition-all" defaultValue="ICSHSM 2026 at Lincoln University College" />
                      </div>
                      <div className="space-y-3">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1 flex items-center gap-2">
@@ -100,7 +100,7 @@ export default function SettingsPage() {
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1 flex items-center gap-2">
                            <MapPin className="w-3 h-3" /> Official Venue
                         </label>
-                        <input type="text" className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl font-bold" defaultValue="Lincoln University College, Malaysia" />
+                        <input type="text" className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl font-bold" defaultValue="Lincoln University College, Nigeria" />
                      </div>
                      <div className="space-y-3">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1 flex items-center gap-2">

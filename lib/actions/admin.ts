@@ -155,7 +155,7 @@ export async function updateGalleryItem(id: string, caption: string, year_tag: s
 
 export async function migrateLegacyGallery(filenames: string[]) {
   const supabase = await checkAuth();
-  const baseUrl = "https://icetmtshs.lincoln.edu.my/wp-content/uploads/2025/05/";
+  const baseUrl = "https://admin.icshsm.org/wp-content/uploads/2026/01/";
   let successCount = 0;
   let errors = [];
 
@@ -185,7 +185,7 @@ export async function migrateLegacyGallery(filenames: string[]) {
       const { error: dbError } = await supabase
         .from("gallery_items")
         .insert({
-          caption: "ICETMTSHS Archive",
+          caption: "ICSHSM 2026 Archive",
           year_tag: "2024",
           image_url: publicUrl,
         });

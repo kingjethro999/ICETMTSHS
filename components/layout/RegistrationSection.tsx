@@ -95,10 +95,10 @@ export default function RegistrationSection({ feesData }: { feesData?: FeesConte
                 <div>
                   <p className="contact-item-label">EMAIL INQUIRY</p>
                   <a
-                    href="mailto:admin@icshsm.org"
+                    href="mailto:idrisahmed@lincoln.edu.my"
                     className="contact-item-value"
                   >
-                    admin@icshsm.org
+                    idrisahmed@lincoln.edu.my
                   </a>
                 </div>
               </div>

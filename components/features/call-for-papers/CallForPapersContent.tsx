@@ -93,16 +93,21 @@ export const CallForPapersContent: React.FC = () => {
                 </h3>
                 <div className="prose prose-sm text-gray-600 space-y-4 max-w-none">
                   <p>
-                    Extended versions of selected papers presented at the
-                    conference will be published in relevant indexed journals after
-                    a rigorous peer-review process.
+                    Extended versions of selected papers presented at <strong>ICSHSM 2026</strong> will be considered for publication (subject to peer review) in the:
                   </p>
+                  <div className="flex items-center gap-4 p-5 bg-white rounded-2xl border border-gray-100 shadow-sm">
+                    <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600">
+                      <CheckCircle2 size={20} />
+                    </div>
+                    <p className="font-bold text-gray-900">
+                      Malaysian Journal of Medical Research (MJMR)
+                    </p>
+                  </div>
                   <div className="flex items-start gap-3 p-4 bg-orange-50/50 rounded-xl border border-orange-100 text-[#e26955]">
                     <Info size={20} className="mt-0.5 flex-shrink-0" />
                     <p className="text-sm font-medium">
                       Submission does not guarantee publication; all manuscripts
-                      must meet the quality and formatting standards of the
-                      target journals.
+                      will undergo rigorous peer review and must meet the journal's standards.
                     </p>
                   </div>
                 </div>

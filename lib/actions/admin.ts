@@ -252,7 +252,7 @@ export async function deleteAbstract(id: string) {
 }
 
 // 4. Newsletter Broadcast
-import { sendNewsletterEmail } from "@/lib/emails";
+import { sendBulkNewsletter } from "@/lib/emails";
 
 export async function getNewsletterSubscribers() {
   const supabase = await checkAuth();
@@ -290,7 +290,7 @@ export async function sendNewsletterToAll(subject: string, content: string) {
 
   for (let i = 0; i < emails.length; i += batchSize) {
     const batch = emails.slice(i, i + batchSize);
-    const result = await sendNewsletterEmail(batch, subject, content);
+    const result = await sendBulkNewsletter(subject, content, batch);
     if (result.success) successCount += batch.length;
   }
 

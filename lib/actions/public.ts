@@ -137,7 +137,7 @@ export async function submitRegistration(formData: FormData) {
 
     // 5. Send confirmation email
     try {
-      await sendSubmissionConfirmation(email, fullName, submissionType);
+      await sendSubmissionConfirmation(email, fullName, false);
     } catch (emailErr) {
       console.error("Non-blocking email error:", emailErr);
     }
@@ -197,7 +197,7 @@ export async function submitAbstract(formData: FormData) {
 
     // 3. Send confirmation email
     try {
-      await sendSubmissionConfirmation(email, fullName, "Abstract");
+      await sendSubmissionConfirmation(email, fullName, true);
     } catch (emailErr) {
       console.error("Non-blocking email error:", emailErr);
     }

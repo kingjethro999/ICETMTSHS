@@ -5,17 +5,35 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function login(formData: FormData) {
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-  const supabase = await createClient();
+  let hasError = false;
+  let errorMessage = "";
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  try {
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    const supabase = await createClient();
 
-  if (error) {
-    return { error: error.message };
+    console.log(`[Login] Attempting login for ${email}`);
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      console.error("[Login Action Error] Supabase Auth Error:", error.message, error);
+      hasError = true;
+      errorMessage = error.message;
+    } else {
+      console.log(`[Login] Successful login for ${email}`);
+    }
+  } catch (err: any) {
+    console.error("[Login Action Exception] Unexpected error:", err);
+    hasError = true;
+    errorMessage = "An unexpected error occurred during login.";
+  }
+
+  if (hasError) {
+    return { error: errorMessage };
   }
 
   revalidatePath("/admin", "layout");
@@ -23,27 +41,35 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-  const fullName = formData.get("fullName") as string;
-  const supabase = await createClient();
+  try {
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    const fullName = formData.get("fullName") as string;
+    const supabase = await createClient();
 
-  const { error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: {
-        full_name: fullName,
+    console.log(`[Signup] Attempting signup for ${email}`);
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+        },
       },
-    },
-  });
+    });
 
-  if (error) {
-    return { error: error.message };
+    if (error) {
+      console.error("[Signup Action Error] Supabase Auth Error:", error.message, error);
+      return { error: error.message };
+    }
+
+    console.log(`[Signup] Successful signup for ${email}`);
+    revalidatePath("/admin", "layout");
+    return { success: "Check your email for confirmation." };
+  } catch (err: any) {
+    console.error("[Signup Action Exception] Unexpected error:", err);
+    return { error: "An unexpected error occurred during signup." };
   }
-
-  revalidatePath("/admin", "layout");
-  return { success: "Check your email for confirmation." };
 }
 
 export async function signOut() {

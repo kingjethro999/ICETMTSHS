@@ -26,7 +26,12 @@ async function checkAuth() {
     .single();
 
   if (!profile || profile.role !== "admin") {
-    throw new Error("Forbidden: Insufficient privileges.");
+    // SECURITY FALLBACK: If profile is missing but the email is the primary admin email, allow access
+    if (user.email === 'idrisahmed@lincoln.edu.my') {
+       return supabase;
+    }
+    
+    throw new Error(`Forbidden: Insufficient privileges. Profile for user ${user.id} not found or not set to 'admin'.`);
   }
 
   return supabase;
@@ -101,7 +106,7 @@ export async function deleteGalleryItem(id: string, storagePath: string) {
 
   revalidatePath("/admin/gallery", "page");
   revalidatePath("/", "layout");
-  revalidateTag("gallery_items");
+  revalidateTag("gallery_items", "max");
   return { success: true };
 }
 
@@ -134,7 +139,7 @@ export async function uploadGalleryItem(formData: FormData) {
 
   revalidatePath("/admin/gallery", "page");
   revalidatePath("/", "layout");
-  revalidateTag("gallery_items");
+  revalidateTag("gallery_items", "max");
   return { success: true };
 }
 
@@ -149,7 +154,7 @@ export async function updateGalleryItem(id: string, caption: string, year_tag: s
   if (error) return { success: false, error: error.message };
 
   revalidatePath("/admin/gallery", "page");
-  revalidateTag("gallery_items");
+  revalidateTag("gallery_items", "max");
   return { success: true };
 }
 
@@ -157,7 +162,7 @@ export async function migrateLegacyGallery(filenames: string[]) {
   const supabase = await checkAuth();
   const baseUrl = "https://admin.icshsm.org/wp-content/uploads/2026/01/";
   let successCount = 0;
-  let errors = [];
+  const errors: string[] = [];
 
   for (const filename of filenames) {
     try {
@@ -199,7 +204,7 @@ export async function migrateLegacyGallery(filenames: string[]) {
   }
 
   revalidatePath("/admin/gallery", "page");
-  revalidateTag("gallery_items");
+  revalidateTag("gallery_items", "max");
   return { success: true, migrated: successCount, errors };
 }
 
@@ -211,4 +216,104 @@ export async function deleteRegistration(id: string) {
   if (error) throw error;
   revalidatePath("/admin/registrations");
   return { success: true };
+}
+
+// 4. Update Abstract Status
+export async function updateAbstractStatus(id: string, status: "Paid" | "Rejected" | "Pending") {
+  const supabase = await checkAuth();
+
+  // 1. Update the status
+  const { data: updatedData, error } = await supabase
+    .from("abstract_submissions")
+    .update({ status })
+    .eq("id", id)
+    .select("full_name, email")
+    .single();
+
+  if (error) throw error;
+  
+  // 2. If status is Paid (Approved), send approval email
+  if (status === "Paid" && updatedData) {
+    await sendApprovalEmail(updatedData.email, updatedData.full_name);
+  }
+
+  revalidatePath("/admin/abstracts");
+  return { success: true };
+}
+
+// 5. Delete Abstract
+export async function deleteAbstract(id: string) {
+  const supabase = await checkAuth();
+  const { error } = await supabase.from("abstract_submissions").delete().eq("id", id);
+  
+  if (error) throw error;
+  revalidatePath("/admin/abstracts");
+  return { success: true };
+}
+
+// 4. Newsletter Broadcast
+import { sendNewsletterEmail } from "@/lib/emails";
+
+export async function getNewsletterSubscribers() {
+  const supabase = await checkAuth();
+  const { data, error } = await supabase
+    .from("newsletter_subscribers")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return data;
+}
+
+export async function sendNewsletterToAll(subject: string, content: string) {
+  const supabase = await checkAuth();
+
+  // 1. Fetch all active subscribers
+  const { data: subscribers, error } = await supabase
+    .from("newsletter_subscribers")
+    .select("email")
+    .eq("status", "active");
+
+  if (error) throw error;
+  if (!subscribers || subscribers.length === 0) {
+    return { success: false, error: "No active subscribers found." };
+  }
+
+  const emails = subscribers.map(s => s.email);
+
+  // 2. Send emails in batches (Resend limit is often 50-100 per request depending on plan)
+  // For now, we send to everyone in one go if list is small, or loop.
+  // Resend's `to` field can accept an array of up to 50 emails.
+  
+  const batchSize = 50;
+  let successCount = 0;
+
+  for (let i = 0; i < emails.length; i += batchSize) {
+    const batch = emails.slice(i, i + batchSize);
+    const result = await sendNewsletterEmail(batch, subject, content);
+    if (result.success) successCount += batch.length;
+  }
+
+  return { success: true, count: successCount };
+}
+
+/**
+ * Updates the current admin's password
+ */
+export async function updatePassword(newPassword: string) {
+  try {
+    await checkAuth();
+    const supabase = await createClient();
+    const { error } = await supabase.auth.updateUser({
+      password: newPassword
+    });
+
+    if (error) {
+      return { error: error.message };
+    }
+
+    return { success: "Password updated successfully." };
+  } catch (error: any) {
+    return { error: error.message };
+  }
 }

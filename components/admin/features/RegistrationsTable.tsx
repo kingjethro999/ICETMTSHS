@@ -35,12 +35,18 @@ export function RegistrationsTable({ initialData }: { initialData: Registration[
   const [data, setData] = useState(initialData);
   const [searchTerm, setSearchTerm] = useState("");
   const [loadingId, setLoadingId] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"all" | "presenter" | "participant">("all");
 
-  const filteredData = data.filter(item => 
-    item.full_name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    item.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.institution.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredData = data.filter(item => {
+    const matchesSearch = item.full_name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      item.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.institution.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesTab = activeTab === "all" || 
+      item.submission_type.toLowerCase() === activeTab;
+
+    return matchesSearch && matchesTab;
+  });
 
   const handleStatusUpdate = async (id: string, status: any) => {
     setLoadingId(id);
@@ -64,7 +70,7 @@ export function RegistrationsTable({ initialData }: { initialData: Registration[
   };
 
   const handleExportCSV = () => {
-    const headers = ["Full Name", "Email", "Institution", "Submission Type", "Abstract Title", "Status", "Date"];
+    const headers = ["Full Name", "Email", "Institution", "Submission Type", "Abstract Title", "Abstract URL", "Status", "Date"];
     const csvContent = [
       headers.join(","),
       ...filteredData.map(item => [
@@ -73,6 +79,7 @@ export function RegistrationsTable({ initialData }: { initialData: Registration[
         `"${item.institution}"`,
         `"${item.submission_type}"`,
         `"${item.paper_title || ""}"`,
+        `"${(item as any).abstract_url ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/gallery/${(item as any).abstract_url}` : ""}"`,
         `"${item.status}"`,
         `"${new Date(item.created_at).toLocaleDateString()}"`
       ].join(","))
@@ -106,11 +113,36 @@ export function RegistrationsTable({ initialData }: { initialData: Registration[
           />
         </div>
 
-        <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-6 py-4 bg-gray-50 text-gray-600 rounded-[1.25rem] font-bold text-sm hover:bg-gray-100 transition-all duration-300">
-            <Filter className="w-4 h-4" />
-            Filter
-          </button>
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="flex bg-gray-100 p-1.5 rounded-2xl mr-4">
+            <button 
+              onClick={() => setActiveTab("all")}
+              className={cn(
+                "px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
+                activeTab === "all" ? "bg-white text-[#9b1d20] shadow-sm" : "text-gray-500 hover:text-gray-700"
+              )}
+            >
+              All
+            </button>
+            <button 
+              onClick={() => setActiveTab("presenter")}
+              className={cn(
+                "px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
+                activeTab === "presenter" ? "bg-white text-[#9b1d20] shadow-sm" : "text-gray-500 hover:text-gray-700"
+              )}
+            >
+              Abstracts
+            </button>
+            <button 
+              onClick={() => setActiveTab("participant")}
+              className={cn(
+                "px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
+                activeTab === "participant" ? "bg-white text-[#9b1d20] shadow-sm" : "text-gray-500 hover:text-gray-700"
+              )}
+            >
+              Registrations
+            </button>
+          </div>
           <button 
             onClick={handleExportCSV}
             className="flex items-center gap-2 px-6 py-4 bg-[#9b1d20] text-white rounded-[1.25rem] font-bold text-sm shadow-lg shadow-red-900/20 hover:scale-105 transition-all duration-300"
@@ -128,6 +160,7 @@ export function RegistrationsTable({ initialData }: { initialData: Registration[
             <tr className="border-b border-gray-50">
               <th className="px-8 py-6 text-[10px] font-black text-gray-400 uppercase tracking-widest">Name & Participant Details</th>
               <th className="px-6 py-6 text-[10px] font-black text-gray-400 uppercase tracking-widest">Affiliation</th>
+              <th className="px-6 py-6 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Abstract</th>
               <th className="px-6 py-6 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Payment Proof</th>
               <th className="px-6 py-6 text-[10px] font-black text-gray-400 uppercase tracking-widest">Status</th>
               <th className="px-8 py-6 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Actions</th>
@@ -155,6 +188,21 @@ export function RegistrationsTable({ initialData }: { initialData: Registration[
                 <td className="px-6 py-6">
                   <p className="text-xs font-bold text-gray-600 leading-relaxed max-w-[200px]">{reg.institution}</p>
                 </td>
+                <td className="px-6 py-6 text-center">
+                  {(reg as any).abstract_url ? (
+                    <a 
+                      href={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/gallery/${(reg as any).abstract_url}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1.5 p-2 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all shadow-sm text-xs font-bold"
+                    >
+                       <Download className="w-3.5 h-3.5" />
+                       Doc
+                    </a>
+                  ) : (
+                    <span className="text-[10px] font-black text-gray-300 uppercase tracking-widest">-</span>
+                  )}
+                </td>
                 <td className="px-6 py-6">
                   <div className="flex justify-center">
                     {reg.payment_proof_url ? (
@@ -167,7 +215,11 @@ export function RegistrationsTable({ initialData }: { initialData: Registration[
                          <Eye className="w-4 h-4" />
                       </a>
                     ) : (
-                      <span className="text-[10px] font-black text-gray-300 uppercase tracking-widest">Missing</span>
+                      reg.submission_type.toLowerCase() === 'presenter' ? (
+                        <span className="text-[10px] font-black text-gray-300 uppercase tracking-widest">Optional</span>
+                      ) : (
+                        <span className="text-[10px] font-black text-red-300 uppercase tracking-widest">Missing</span>
+                      )
                     )}
                   </div>
                 </td>

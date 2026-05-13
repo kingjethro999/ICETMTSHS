@@ -3,13 +3,30 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { ArrowRight, Phone, Printer, Mail, MapPin, Smartphone } from "lucide-react";
 
+import { subscribeToNewsletter } from "@/lib/actions/public";
+import { Loader2, CheckCircle2 } from "lucide-react";
+
 export default function Footer() {
   const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Newsletter subscription:", email);
-    setEmail("");
+    setStatus("loading");
+    setMessage("");
+    
+    const result = await subscribeToNewsletter(email);
+    
+    if (result.success) {
+      setStatus("success");
+      setMessage("Thank you! You've been subscribed.");
+      setEmail("");
+      setTimeout(() => setStatus("idle"), 5000);
+    } else {
+      setStatus("error");
+      setMessage(result.error || "Failed to subscribe.");
+    }
   };
 
   return (
@@ -27,7 +44,7 @@ export default function Footer() {
               1st International Conference on Sustainable Healthcare and Health Systems Management
             </h3>
             <p className="text-gray-500 text-xs leading-relaxed">
-              &copy; 2026 ICSHSM. Organized by Lincoln University College, Nigeria.
+              &copy; 2026 ICSHSM. Organized by Lincoln University College Nigeria.
             </p>
           </div>
 
@@ -45,7 +62,7 @@ export default function Footer() {
               <div className="flex items-start gap-2 text-gray-500 text-xs">
                 <MapPin size={13} className="mt-0.5 flex-shrink-0 text-red-900" />
                 <span className="leading-relaxed">
-                  Lincoln University College, Nigeria. Abuja, Nigeria
+                  Lincoln University College Nigeria
                 </span>
               </div>
               <div className="flex items-center gap-2 text-gray-500 text-xs">
@@ -68,15 +85,15 @@ export default function Footer() {
             <ul className="space-y-2.5">
               <li className="flex items-center gap-2 text-gray-500 text-xs">
                 <Phone size={13} className="flex-shrink-0 text-[#9b1d20]" />
-                <span>Contact via Lincoln University College, Nigeria</span>
+                <span>Contact via Lincoln University College Nigeria</span>
               </li>
               <li className="flex items-center gap-2 text-gray-500 text-xs">
                 <Mail size={13} className="flex-shrink-0 text-[#9b1d20]" />
                 <a
-                  href="mailto:admin@icshsm.org"
+                  href="mailto:info@icshsm.org"
                   className="hover:text-[#9b1d20] transition-colors duration-200"
                 >
-                  admin@icshsm.org
+                  info@icshsm.org
                 </a>
               </li>
             </ul>
@@ -96,17 +113,25 @@ export default function Footer() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email address"
-                className="w-full px-4 py-2.5 pr-12 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-sm focus:outline-none focus:ring-2 focus:ring-red-900/20 focus:border-red-900 transition-all duration-200"
+                className="w-full px-4 py-2.5 pr-12 text-sm text-gray-700 bg-gray-50 border-none rounded-sm focus:outline-none focus:ring-2 focus:ring-red-900/20 shadow-inner transition-all duration-200"
                 required
+                disabled={status === "loading"}
               />
               <button
                 type="submit"
-                className="absolute right-1 top-1 bottom-1 bg-red-900 hover:bg-red-800 text-white px-3 rounded-sm transition-colors duration-200 flex items-center justify-center"
+                disabled={status === "loading"}
+                className="absolute right-1 top-1 bottom-1 bg-red-900 hover:bg-red-800 text-white px-3 rounded-sm transition-colors duration-200 flex items-center justify-center disabled:opacity-50"
                 aria-label="Subscribe"
               >
-                <ArrowRight size={16} />
+                {status === "loading" ? <Loader2 size={16} className="animate-spin" /> : <ArrowRight size={16} />}
               </button>
             </form>
+
+            {message && (
+              <p className={`text-[10px] font-bold uppercase tracking-widest animate-in fade-in slide-in-from-top-1 ${status === 'success' ? 'text-emerald-600' : 'text-red-600'}`}>
+                {message}
+              </p>
+            )}
 
             {/* Policies */}
             <div className="pt-2">

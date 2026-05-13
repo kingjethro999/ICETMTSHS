@@ -1,0 +1,6 @@
+{
+  "__isAuthError": true,
+  "name": "AuthApiError",
+  "status": 400,
+  "code": "email_address_invalid"
+}

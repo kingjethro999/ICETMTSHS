@@ -85,7 +85,7 @@ export const RegistrationFeeContent: React.FC = () => {
           <FeeCard
             category="Delegates"
             subCategory="Presenters and Participants"
-            localFee="100,000"
+            localFee="45,000"
             internationalFee="100"
             iconType="delegate"
           />
@@ -94,7 +94,7 @@ export const RegistrationFeeContent: React.FC = () => {
           <FeeCard
             category="Research Scholar"
             subCategory="Including PhD Scholars"
-            localFee="100,000"
+            localFee="45,000"
             internationalFee="100"
             iconType="scholar"
           />
@@ -103,7 +103,7 @@ export const RegistrationFeeContent: React.FC = () => {
           <FeeCard
             category="Student"
             subCategory="Masters and Bachelor Level"
-            localFee="100,000"
+            localFee="45,000"
             internationalFee="100"
             iconType="student"
           />

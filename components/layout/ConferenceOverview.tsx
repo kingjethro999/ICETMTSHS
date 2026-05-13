@@ -36,14 +36,14 @@ export const ConferenceOverview: React.FC = () => {
         >
 
           {/* Image */}
-          <motion.div variants={itemVariants} className="relative group perspective">
+          <motion.div variants={itemVariants} className="relative group perspective w-full h-[400px]">
             <div className="absolute -inset-4 bg-gray-100 rounded-2xl transform rotate-2 group-hover:rotate-1 transition-transform duration-500 z-0"></div>
             <Image
-              src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80"
+              src="/home-about.png"
               alt="Conference overview - professionals engaged in sustainable healthcare"
-              width={1024}
-              height={682}
-              className="relative z-10 w-full h-auto rounded-xl shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="relative z-10 object-cover rounded-xl shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]"
               priority
             />
           </motion.div>

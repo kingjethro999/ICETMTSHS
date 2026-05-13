@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { submitRegistration } from "@/lib/actions/public";
+import { submitAbstract } from "@/lib/actions/public";
 import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 
 interface FormData {
@@ -83,7 +83,7 @@ export const SubmissionForm: React.FC = () => {
       
       // Files are already in the form since they are input type="file"
       
-      const result = await submitRegistration(formDataToSend);
+      const result = await submitAbstract(formDataToSend);
       
       if (result.success) {
         setStatus("success");
@@ -96,7 +96,7 @@ export const SubmissionForm: React.FC = () => {
 
   if (status === "success") {
     return (
-      <div className="bg-emerald-50 text-emerald-800 p-12 rounded-3xl border border-emerald-100 text-center space-y-6 mt-12 animate-in zoom-in-95 duration-500">
+      <div className="bg-emerald-50 text-emerald-800 p-12 rounded-3xl text-center space-y-6 mt-12 animate-in zoom-in-95 duration-500 shadow-[0_20px_50px_rgba(16,185,129,0.05)]">
         <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm">
           <CheckCircle2 className="w-8 h-8 text-emerald-500" />
         </div>
@@ -120,7 +120,7 @@ export const SubmissionForm: React.FC = () => {
         Submit Your Abstract:
       </h3>
 
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.04)] overflow-hidden">
         <form onSubmit={handleSubmit} className="p-6 sm:p-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-6">
             {/* LEFT COLUMN */}
@@ -134,7 +134,7 @@ export const SubmissionForm: React.FC = () => {
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#9b1d20]/20 focus:border-[#9b1d20] outline-none transition-all"
+                  className="w-full px-5 py-3 rounded-2xl bg-gray-50 focus:bg-white focus:ring-4 focus:ring-[#9b1d20]/5 focus:shadow-inner outline-none transition-all placeholder:opacity-30"
                 />
                 {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>}
               </div>
@@ -148,7 +148,7 @@ export const SubmissionForm: React.FC = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#9b1d20]/20 focus:border-[#9b1d20] outline-none transition-all"
+                  className="w-full px-5 py-3 rounded-2xl bg-gray-50 focus:bg-white focus:ring-4 focus:ring-[#9b1d20]/5 focus:shadow-inner outline-none transition-all placeholder:opacity-30"
                 />
                 {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
               </div>
@@ -162,7 +162,7 @@ export const SubmissionForm: React.FC = () => {
                   name="mobileNo"
                   value={formData.mobileNo}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#9b1d20]/20 focus:border-[#9b1d20] outline-none transition-all"
+                  className="w-full px-5 py-3 rounded-2xl bg-gray-50 focus:bg-white focus:ring-4 focus:ring-[#9b1d20]/5 focus:shadow-inner outline-none transition-all placeholder:opacity-30"
                 />
                 {errors.mobileNo && <p className="text-red-500 text-xs mt-1">{errors.mobileNo}</p>}
               </div>
@@ -179,7 +179,8 @@ export const SubmissionForm: React.FC = () => {
                   name="affiliation"
                   value={formData.affiliation}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#9b1d20]/20 focus:border-[#9b1d20] outline-none transition-all"
+                  placeholder="e.g. Lincoln University College"
+                  className="w-full px-5 py-3 rounded-2xl bg-gray-50 focus:bg-white focus:ring-4 focus:ring-[#9b1d20]/5 focus:shadow-inner outline-none transition-all placeholder:opacity-30"
                 />
                 {errors.affiliation && <p className="text-red-500 text-xs mt-1">{errors.affiliation}</p>}
               </div>
@@ -193,7 +194,7 @@ export const SubmissionForm: React.FC = () => {
                   name="abstractTitle"
                   value={formData.abstractTitle}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#9b1d20]/20 focus:border-[#9b1d20] outline-none transition-all"
+                  className="w-full px-5 py-3 rounded-2xl bg-gray-50 focus:bg-white focus:ring-4 focus:ring-[#9b1d20]/5 focus:shadow-inner outline-none transition-all placeholder:opacity-30"
                 />
                 {errors.abstractTitle && <p className="text-red-500 text-xs mt-1">{errors.abstractTitle}</p>}
               </div>
@@ -214,21 +215,31 @@ export const SubmissionForm: React.FC = () => {
             </div>
           </div>
 
-          <hr className="my-8 border-gray-100" />
+          <div className="my-8 h-px bg-gray-50" />
 
-          <div className="bg-red-50/50 p-4 rounded-lg border border-red-100">
+          <div className="bg-red-50/50 p-6 rounded-[2rem]">
             <div className="text-[#9b1d20] font-bold mb-2 flex items-center gap-2">
-              Note<span className="text-red-500">*</span>
+              Submission Guidelines & Deadlines<span className="text-red-500">*</span>
             </div>
-            <div className="text-xs text-gray-600 leading-relaxed space-y-1">
+            <div className="text-xs text-gray-600 leading-relaxed space-y-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                 <div className="bg-white/50 p-4 rounded-2xl">
+                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Abstract Deadline</p>
+                    <p className="font-black text-gray-900">30th August 2026</p>
+                 </div>
+                 <div className="bg-white/50 p-4 rounded-2xl">
+                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Full Paper Submission</p>
+                    <p className="font-black text-gray-900">31st September 2026</p>
+                 </div>
+              </div>
               <p>Your abstract will undergo a double-blind peer review by the conference committee within two weeks from its receipt.</p>
-              <p>Please make sure you complete the abstract using the template as provided on the website (Template).</p>
+              <p>Please make sure you complete the abstract using the official template (Template download will be sent via email upon receipt).</p>
               <p className="font-semibold text-[#9b1d20]">Only Microsoft Word (.doc, .docx) file types are allowed to be uploaded.</p>
             </div>
           </div>
 
           {status === "error" && (
-             <div className="mt-6 p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3 text-red-700 text-sm font-bold animate-in slide-in-from-top-2">
+             <div className="mt-6 p-6 bg-red-50 rounded-[2rem] flex items-center gap-3 text-red-700 text-sm font-bold animate-in slide-in-from-top-2">
                 <AlertCircle className="w-5 h-5 flex-shrink-0" />
                 {errorMessage}
              </div>

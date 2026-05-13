@@ -63,7 +63,6 @@ export default function ThematicTracks() {
             <h2 className="tracks-heading">Thematic Tracks</h2>
           </div>
           <p className="tracks-subtitle">
-            Interdisciplinary excellence across five primary domains.
             Interdisciplinary excellence across seven primary domains.
           </p>
         </div>
@@ -136,8 +135,7 @@ export default function ThematicTracks() {
 
         /* ── Divider ── */
         .tracks-divider {
-          height: 1px;
-          background-color: #e8e8e8;
+          height: 0px;
           margin-bottom: 56px;
         }
 

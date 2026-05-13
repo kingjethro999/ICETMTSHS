@@ -49,8 +49,7 @@ export default function ContactPage() {
               icon={MapPin}
               title="Our Location"
               details={[
-                "Lincoln University College, Nigeria",
-                "Abuja, Nigeria"
+                "Lincoln University College Nigeria"
               ]}
             />
 
@@ -59,7 +58,7 @@ export default function ContactPage() {
                 icon={Phone}
                 title="Office Phone"
                 details={[
-                  "Contact via Lincoln University College, Nigeria"
+                  "Contact via Lincoln University College Nigeria"
                 ]}
               />
 
@@ -80,7 +79,7 @@ export default function ContactPage() {
               <ContactInfoCard 
                 icon={Mail}
                 title="Email Address"
-                details={["admin@icshsm.org"]}
+                details={["info@icshsm.org"]}
               />
             </div>
           </div>

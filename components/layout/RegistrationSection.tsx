@@ -20,11 +20,15 @@ interface FeesContent {
 
 export default function RegistrationSection({ feesData }: { feesData?: FeesContent }) {
   const defaultRates = [
-    { type: "Delegates (Nigeria)", early: "₦100,000", normal: "₦100,000" },
+    { type: "Delegates (Nigeria)", early: "₦45,000", normal: "₦45,000" },
     { type: "Delegates (International)", early: "USD 100", normal: "USD 100" },
   ];
 
-  const rates = feesData?.rates || defaultRates;
+  const rates = (feesData?.rates || defaultRates).map(rate => ({
+    ...rate,
+    early: rate.early.replace("100,000", "45,000"),
+    normal: rate.normal.replace("100,000", "45,000")
+  }));
 
   return (
     <div className="registration-wrapper">
@@ -34,8 +38,8 @@ export default function RegistrationSection({ feesData }: { feesData?: FeesConte
         <h2 className="section-title">Registration Fees</h2>
 
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-           {rates.map((rate, idx) => (
-             <div key={idx} className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all group">
+            {rates.map((rate, idx) => (
+              <div key={idx} className="bg-white p-8 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all group">
                 <div className="flex items-center justify-between mb-6">
                    <h3 className="text-lg font-black text-gray-900 uppercase tracking-tighter">{rate.type}</h3>
                    <div className="w-10 h-10 bg-red-50 rounded-2xl flex items-center justify-center text-[#9b1d20] font-black text-xs">
@@ -43,11 +47,11 @@ export default function RegistrationSection({ feesData }: { feesData?: FeesConte
                    </div>
                 </div>
                 <div className="space-y-4">
-                   <div className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100 group-hover:bg-red-50/50 transition-colors">
+                   <div className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl group-hover:bg-red-50/50 transition-colors">
                       <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Early Bird Rate</span>
                       <span className="text-xl font-black text-[#9b1d20]">{rate.early}</span>
                    </div>
-                   <div className="flex items-center justify-between p-4 bg-white rounded-2xl border border-gray-100">
+                   <div className="flex items-center justify-between p-4 bg-white/50 rounded-2xl">
                       <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Normal Rate</span>
                       <span className="text-xl font-black text-gray-900">{rate.normal}</span>
                    </div>
@@ -63,14 +67,30 @@ export default function RegistrationSection({ feesData }: { feesData?: FeesConte
            <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-60 mb-4">Official Payment Account</p>
            <h3 className="text-2xl font-black mb-6 tracking-tight">Zenith Bank</h3>
            <div className="space-y-4">
-              <div className="flex justify-between items-center border-b border-white/20 pb-2">
+              <div className="flex justify-between items-center opacity-80 pb-2 border-b border-white/10">
                  <span className="text-[10px] font-bold uppercase opacity-60">Account Name</span>
-                 <span className="font-black text-sm">Lincoln ODL</span>
+                 <span className="font-black text-sm uppercase">Lincoln R&D Business LTD</span>
               </div>
-              <div className="flex justify-between items-center">
-                 <span className="text-[10px] font-bold uppercase opacity-60">Account Number</span>
-                 <span className="text-2xl font-black tracking-tighter">1227957953</span>
-              </div>
+               <button 
+                onClick={() => {
+                  navigator.clipboard.writeText("1311031521");
+                  const btn = document.getElementById('copy-btn');
+                  if (btn) {
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = 'COPIED!';
+                    setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+                  }
+                }}
+                className="w-full flex justify-between items-center bg-white/10 p-4 rounded-2xl backdrop-blur-sm hover:bg-white/20 transition-all active:scale-[0.98] group/btn"
+              >
+                 <div className="text-left">
+                   <span className="text-[10px] font-bold uppercase opacity-60 block">Account Number</span>
+                   <span className="text-2xl font-black tracking-tighter">1311031521</span>
+                 </div>
+                 <div id="copy-btn" className="bg-white/10 px-4 py-2 rounded-xl text-[10px] font-black tracking-widest uppercase transition-all group-hover/btn:bg-[#9b1d20]">
+                    Copy
+                 </div>
+              </button>
            </div>
         </div>
 
@@ -84,7 +104,7 @@ export default function RegistrationSection({ feesData }: { feesData?: FeesConte
             <div className="section-label crimson">VENUE &amp; CONTACT</div>
             <h2 className="contact-title">Virtual Platform</h2>
             <p className="contact-description">
-              Organized by Lincoln University College, Nigeria. Join us from anywhere in the world on our interactive global virtual platform.
+              Organized by Lincoln University College Nigeria. Join us from anywhere in the world on our interactive global virtual platform.
             </p>
 
             <div className="contact-items">
@@ -95,10 +115,16 @@ export default function RegistrationSection({ feesData }: { feesData?: FeesConte
                 <div>
                   <p className="contact-item-label">EMAIL INQUIRY</p>
                   <a
-                    href="mailto:admin@icshsm.org"
+                    href="mailto:icshsm@lincoln.edu.my"
                     className="contact-item-value"
                   >
-                    admin@icshsm.org
+                    icshsm@lincoln.edu.my
+                  </a>
+                  <a
+                    href="mailto:idrisahmed@lincoln.edu.my"
+                    className="contact-item-value text-xs opacity-60 mt-1"
+                  >
+                    idrisahmed@lincoln.edu.my
                   </a>
                 </div>
               </div>
@@ -109,8 +135,8 @@ export default function RegistrationSection({ feesData }: { feesData?: FeesConte
                 </div>
                 <div>
                   <p className="contact-item-label">CONFERENCE SECRETARIAT</p>
-                  <p className="contact-item-value">
-                    Contact: Prof. Dr. Idris A. Ahmed
+                  <p className="contact-item-value cursor-default">
+                    Prof. Dr. Idris A. Ahmed
                   </p>
                 </div>
               </div>
@@ -118,13 +144,12 @@ export default function RegistrationSection({ feesData }: { feesData?: FeesConte
           </div>
 
           {/* Right: Map placeholder */}
-          <div className="map-wrap flex items-center justify-center bg-gray-50 border border-gray-100">
+          <div className="map-wrap flex items-center justify-center bg-gray-50 shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
              <div className="text-center p-12">
                 <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
                    <MapPin size={32} className="text-[#9b1d20]" />
                 </div>
                 <h3 className="text-2xl font-black text-gray-900 mb-2">Virtual Platform</h3>
-                <p className="text-sm font-bold text-gray-500 uppercase tracking-widest">Abuja, Nigeria Focal Point</p>
              </div>
           </div>
         </div>
@@ -169,7 +194,6 @@ export default function RegistrationSection({ feesData }: { feesData?: FeesConte
         .contact-section {
           padding: 120px 5%;
           background: #fff;
-          border-top: 1px solid #f0f0f0;
         }
 
         .contact-inner {
@@ -216,14 +240,13 @@ export default function RegistrationSection({ feesData }: { feesData?: FeesConte
         .contact-icon-wrap {
           width: 50px;
           height: 50px;
-          border: 1.5px solid #f0f0f0;
           border-radius: 16px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: #9b1d20;
           flex-shrink: 0;
-          background: #fdfdfd;
+          background: #fdfdfc;
           box-shadow: 0 4px 15px rgba(0,0,0,0.03);
         }
 

@@ -47,7 +47,7 @@ export const ConferenceObjectives: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all group"
+              className="bg-white p-8 rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all group"
             >
               <div className="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center text-[#9b1d20] mb-6 group-hover:scale-110 transition-transform">
                 <obj.icon size={28} />

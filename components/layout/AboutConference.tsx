@@ -12,9 +12,9 @@ interface AboutData {
 export default function AboutConference({ data }: { data?: AboutData }) {
   const defaults = {
     heading: "Advancing Sustainable Healthcare: Innovation, Resilience, and Global Health Systems Transformation",
-    description: "Lincoln University College, Nigeria, in collaboration with ********** proudly presents the 1st International Conference on Sustainable Healthcare and Health Systems Management (ICSHSM 2026). ICSHSM 2026 aims to serve as a premier global platform bringing together academicians, healthcare professionals, policymakers, researchers, and industry experts to explore innovative and sustainable solutions in healthcare delivery and health systems management.",
-    partnerTitle: "Lincoln University College, Nigeria",
-    partnerDescription: "In Collaboration with: *******",
+    description: "Lincoln University College Nigeria, in collaboration with ********** proudly presents the 1st International Conference on Sustainable Healthcare and Health Systems Management (ICSHSM 2026). ICSHSM 2026 aims to serve as a premier global platform bringing together academicians, healthcare professionals, policymakers, researchers, and industry experts to explore innovative and sustainable solutions in healthcare delivery and health systems management. In an era marked by rapid technological advancements and global health crises, the need for resilient and sustainable healthcare systems is more critical than ever.",
+    partnerTitle: "In Collaboration with: *******",
+    partnerDescription: "Lincoln University College Nigeria",
     year: "2026"
   };
 
@@ -35,7 +35,7 @@ export default function AboutConference({ data }: { data?: AboutData }) {
             {content.description}
           </p>
 
-          <div className="about-card bg-white border border-gray-100 shadow-sm rounded-3xl p-8">
+          <div className="about-card bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all rounded-[2.5rem] p-8">
             <p className="about-card-title font-black text-[#9b1d20] uppercase text-xs tracking-widest mb-4">
               {content.partnerTitle}
             </p>
@@ -56,7 +56,7 @@ export default function AboutConference({ data }: { data?: AboutData }) {
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
             />
-            <div className="about-year-badge bg-[#9b1d20] shadow-2xl p-10 rounded-3xl border-4 border-white/20 backdrop-blur-xl">
+            <div className="about-year-badge bg-[#9b1d20] shadow-2xl p-10 rounded-[2.5rem] backdrop-blur-xl">
               <span className="about-year-number font-black text-6xl tracking-tighter text-white">{content.year}</span>
               <span className="about-year-label font-bold text-[10px] text-red-200 mt-2 uppercase tracking-[0.3em]">The Global Edition</span>
             </div>

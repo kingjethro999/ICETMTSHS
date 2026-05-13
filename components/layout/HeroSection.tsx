@@ -18,8 +18,8 @@ export const HeroSection: React.FC<{ data?: HeroData }> = ({ data }) => {
       "1st International Conference on Sustainable Healthcare and Health Systems Management",
     code: "(ICSHSM, 2026)",
     organizer: "Lincoln University College, Nigeria",
-    video_url: "", // Removed dead video, utilizing high-end static parallax
-    poster_url: "https://images.unsplash.com/photo-1551076805-e1869043e560?auto=format&fit=crop&q=80",
+    video_url: "", 
+    poster_url: "/hero.png",
   };
 
   const content = { ...defaults, ...data };
@@ -31,8 +31,8 @@ export const HeroSection: React.FC<{ data?: HeroData }> = ({ data }) => {
     offset: ["start start", "end start"],
   });
   
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
 
   // Σignal: Motion Vocabulary - Stagger Cascade
   const containerVariants: Variants = {
@@ -57,39 +57,20 @@ export const HeroSection: React.FC<{ data?: HeroData }> = ({ data }) => {
 
   return (
     <div ref={containerRef} className="relative h-screen min-h-[600px] overflow-hidden bg-gray-900">
-      {/*
-        Preconnect hint — tells the browser to open a TCP + TLS connection to
-        the WordPress origin early, reducing latency for the video and any
-        images that come from the same host.
-      */}
       {/* Background Media with Parallax Drift */}
       <motion.div 
         style={{ y, opacity }}
         className="absolute inset-0 z-0"
       >
-        {/* Static Fallback Image */}
+        {/* Local Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${content.poster_url})` }}
         />
-        
-        {/* Cinematic Video Background */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source 
-            src="https://assets.mixkit.co/videos/preview/mixkit-doctors-and-nurses-in-a-hospital-41589-large.mp4" 
-            type="video/mp4" 
-          />
-        </video>
 
         {/* Branding Overlay: Crimson #9b1d20 with mix-blend-multiply */}
-        <div className="absolute inset-0 bg-[#9b1d20] mix-blend-multiply opacity-90"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#9b1d20]/20 to-[#9b1d20]/80"></div>
+        <div className="absolute inset-0 bg-[#9b1d20] mix-blend-multiply opacity-60"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#9b1d20]/40 via-[#9b1d20]/20 to-gray-900"></div>
       </motion.div>
 
       {/* Content */}
@@ -122,7 +103,7 @@ export const HeroSection: React.FC<{ data?: HeroData }> = ({ data }) => {
           </motion.div>
 
           {/* Organizer */}
-          <motion.div variants={itemVariants} className="border-t border-white/30 pt-5 mt-4">
+          <motion.div variants={itemVariants} className="pt-8 mt-4 bg-white/5 backdrop-blur-sm rounded-[2.5rem] p-8">
             <p className="text-[10px] sm:text-xs tracking-[0.3em] uppercase font-bold opacity-60">
               ORGANIZED BY
             </p>

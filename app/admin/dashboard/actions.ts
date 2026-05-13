@@ -11,7 +11,9 @@ export async function getDashboardStats() {
     { count: paidSubmissions, error: paidError },
     { count: totalAbstracts, error: absError },
     { count: totalGallery, error: galError },
-    { data: recentRegistrations }
+    { data: recentRegistrations },
+    { count: irregularityCount, error: secError },
+    { data: recentIrregularities }
   ] = await Promise.all([
     // 1. Total Registrations
     supabase.from("registrations").select("*", { count: "exact", head: true }),
@@ -22,7 +24,11 @@ export async function getDashboardStats() {
     // 4. Gallery Items
     supabase.from("gallery_items").select("*", { count: "exact", head: true }),
     // 5. Recent Registrations
-    supabase.from("registrations").select("*").order("created_at", { ascending: false }).limit(5)
+    supabase.from("registrations").select("*").order("created_at", { ascending: false }).limit(5),
+    // 6. Security Irregularities
+    supabase.from("security_events").select("*", { count: "exact", head: true }).eq("event_type", "IrregularityDetected"),
+    // 7. Recent Irregularities
+    supabase.from("security_events").select("*").eq("event_type", "IrregularityDetected").order("created_at", { ascending: false }).limit(5)
   ]);
 
   return {
@@ -31,9 +37,11 @@ export async function getDashboardStats() {
       paidSubmissions: paidSubmissions || 0,
       totalAbstracts: totalAbstracts || 0,
       totalGallery: totalGallery || 0,
+      irregularityCount: irregularityCount || 0,
     },
     recentRegistrations: recentRegistrations || [],
-    errors: { regError, paidError, absError, galError }
+    recentIrregularities: recentIrregularities || [],
+    errors: { regError, paidError, absError, galError, secError }
   };
 }
 

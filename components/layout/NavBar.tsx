@@ -34,15 +34,16 @@ export const NavBar: React.FC = () => {
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center gap-2">
-              <span className="text-[#9b1d20] font-black text-lg md:text-xl tracking-tight leading-none">
-                ICSHSM
-              </span>
-              <span className="text-gray-300 font-thin text-lg">|</span>
-              <span className="text-gray-600 font-semibold text-xs md:text-sm tracking-wider leading-tight">
-                2026
-              </span>
+          <div className="flex-shrink-0 py-1">
+            <Link href="/" className="flex items-center relative h-16 w-48 md:w-56">
+              <Image 
+                src="/logo.png" 
+                alt="ICETMTSHS 2026 Logo" 
+                fill
+                sizes="(max-width: 768px) 192px, 224px"
+                className="object-contain"
+                priority
+              />
             </Link>
           </div>
 

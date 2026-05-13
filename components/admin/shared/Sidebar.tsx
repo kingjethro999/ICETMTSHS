@@ -10,7 +10,9 @@ import {
   Image as ImageIcon, 
   Settings,
   ChevronRight,
-  LogOut
+  LogOut,
+  Mail,
+  Globe
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { signOut } from "@/app/admin/actions";
@@ -22,8 +24,13 @@ const menuItems = [
     href: "/admin/dashboard",
   },
   {
-    name: "Content Manager",
+    name: "Abstracts",
     icon: FileText,
+    href: "/admin/abstracts",
+  },
+  {
+    name: "Content Manager",
+    icon: Globe,
     href: "/admin/content-manager",
   },
   {
@@ -35,6 +42,11 @@ const menuItems = [
     name: "Gallery Manager",
     icon: ImageIcon,
     href: "/admin/gallery",
+  },
+  {
+    name: "Newsletter",
+    icon: Mail,
+    href: "/admin/newsletter",
   },
   {
     name: "Settings",

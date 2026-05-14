@@ -1,11 +1,5 @@
-"use client"
-import {
-  Briefcase,
-  Microscope,
-  Users,
-  HeartPulse,
-  Leaf,
-} from "lucide-react";
+"use client";
+import { Briefcase, Microscope, Users, HeartPulse, Leaf } from "lucide-react";
 
 const tracks = [
   {
@@ -29,26 +23,22 @@ const tracks = [
   {
     icon: Users,
     title: "Public Health and Global Health",
-    description:
-      "Pandemic preparedness, health equity, and access.",
+    description: "Pandemic preparedness, health equity, and access.",
   },
   {
     icon: HeartPulse,
     title: "Healthcare Quality and Patient Safety",
-    description:
-      "Improvement frameworks and patient-centered care.",
+    description: "Improvement frameworks and patient-centered care.",
   },
   {
     icon: Briefcase,
     title: "Health Economics and Policy",
-    description:
-      "Financing, resource allocation, and policy development.",
+    description: "Financing, resource allocation, and policy development.",
   },
   {
     icon: HeartPulse,
     title: "Integrative and Complementary Medicine",
-    description:
-      "Holistic and personalized healthcare.",
+    description: "Holistic and personalized healthcare.",
   },
 ];
 
@@ -236,6 +226,7 @@ function TrackCard({
           color: #555;
           margin: 0;
           font-family: "Arial", sans-serif;
+          text-align: justify;
         }
       `}</style>
     </div>

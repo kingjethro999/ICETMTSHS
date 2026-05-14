@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from "next/image";
 
 interface AboutData {
@@ -11,11 +11,13 @@ interface AboutData {
 
 export default function AboutConference({ data }: { data?: AboutData }) {
   const defaults = {
-    heading: "Advancing Sustainable Healthcare: Innovation, Resilience, and Global Health Systems Transformation",
-    description: "Lincoln University College Nigeria, in collaboration with ********** proudly presents the 1st International Conference on Sustainable Healthcare and Health Systems Management (ICSHSM 2026). ICSHSM 2026 aims to serve as a premier global platform bringing together academicians, healthcare professionals, policymakers, researchers, and industry experts to explore innovative and sustainable solutions in healthcare delivery and health systems management. In an era marked by rapid technological advancements and global health crises, the need for resilient and sustainable healthcare systems is more critical than ever.",
+    heading:
+      "Advancing Sustainable Healthcare: Innovation, Resilience, and Global Health Systems Transformation",
+    description:
+      "Lincoln University College Nigeria, in collaboration with ********** proudly presents the 1st International Conference on Sustainable Healthcare and Health Systems Management (ICSHSM 2026). ICSHSM 2026 aims to serve as a premier global platform bringing together academicians, healthcare professionals, policymakers, researchers, and industry experts to explore innovative and sustainable solutions in healthcare delivery and health systems management. In an era marked by rapid technological advancements and global health crises, the need for resilient and sustainable healthcare systems is more critical than ever.",
     partnerTitle: "In Collaboration with: *******",
     partnerDescription: "Lincoln University College Nigeria",
-    year: "2026"
+    year: "2026",
   };
 
   const content = { ...defaults, ...data };
@@ -31,7 +33,7 @@ export default function AboutConference({ data }: { data?: AboutData }) {
             {content.heading}
           </h1>
 
-          <p className="about-body font-bold text-gray-600 leading-relaxed text-sm">
+          <p className="about-body font-bold text-gray-600 leading-relaxed text-sm text-justify">
             {content.description}
           </p>
 
@@ -57,8 +59,12 @@ export default function AboutConference({ data }: { data?: AboutData }) {
               priority
             />
             <div className="about-year-badge bg-[#9b1d20] shadow-2xl p-10 rounded-[2.5rem] backdrop-blur-xl">
-              <span className="about-year-number font-black text-6xl tracking-tighter text-white">{content.year}</span>
-              <span className="about-year-label font-bold text-[10px] text-red-200 mt-2 uppercase tracking-[0.3em]">The Global Edition</span>
+              <span className="about-year-number font-black text-6xl tracking-tighter text-white">
+                {content.year}
+              </span>
+              <span className="about-year-label font-bold text-[10px] text-red-200 mt-2 uppercase tracking-[0.3em]">
+                The Global Edition
+              </span>
             </div>
           </div>
         </div>

@@ -16,7 +16,10 @@ export const NavBar: React.FC = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setOpenDropdown(null);
       }
     };
@@ -35,10 +38,13 @@ export const NavBar: React.FC = () => {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex-shrink-0 py-1">
-            <Link href="/" className="flex items-center relative h-16 w-48 md:w-56">
-              <Image 
-                src="/logo.png" 
-                alt="ICETMTSHS 2026 Logo" 
+            <Link
+              href="/"
+              className="flex items-center relative h-16 w-48 md:w-56"
+            >
+              <Image
+                src="/logo2.jpeg"
+                alt="ICETMTSHS 2026 Logo"
                 fill
                 sizes="(max-width: 768px) 192px, 224px"
                 className="object-contain"
@@ -48,10 +54,18 @@ export const NavBar: React.FC = () => {
           </div>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden xl:flex items-center space-x-1 lg:space-x-5" ref={dropdownRef}>
+          <div
+            className="hidden xl:flex items-center space-x-1 lg:space-x-5"
+            ref={dropdownRef}
+          >
             {navData.navItems.map((item) => {
-              const exactMatch = item.href === "/" ? pathname === "/" : pathname?.startsWith(item.href);
-              const isSubItemActive = item.subItems?.some(sub => pathname === sub.href);
+              const exactMatch =
+                item.href === "/"
+                  ? pathname === "/"
+                  : pathname?.startsWith(item.href);
+              const isSubItemActive = item.subItems?.some(
+                (sub) => pathname === sub.href,
+              );
               const isActive = item.isActive || exactMatch || isSubItemActive;
 
               return item.subItems ? (
@@ -62,11 +76,16 @@ export const NavBar: React.FC = () => {
                       "flex items-center text-[13px] font-bold transition-colors hover:text-[#9b1d20] uppercase tracking-wider whitespace-nowrap",
                       isActive
                         ? "text-[#9b1d20] border-b-2 border-[#9b1d20] pb-1"
-                        : "text-gray-700"
+                        : "text-gray-700",
                     )}
                   >
                     {item.label}
-                    <ChevronDown className={cn("ml-1 h-3 w-3 transition-transform", openDropdown === item.label ? "rotate-180" : "")} />
+                    <ChevronDown
+                      className={cn(
+                        "ml-1 h-3 w-3 transition-transform",
+                        openDropdown === item.label ? "rotate-180" : "",
+                      )}
+                    />
                   </button>
 
                   {openDropdown === item.label && (
@@ -98,7 +117,7 @@ export const NavBar: React.FC = () => {
                     "text-[13px] font-bold transition-colors hover:text-[#9b1d20] uppercase tracking-wider whitespace-nowrap px-1",
                     isActive
                       ? "text-[#9b1d20] border-b-2 border-[#9b1d20] pb-1"
-                      : "text-gray-700"
+                      : "text-gray-700",
                   )}
                 >
                   {item.label}
@@ -119,7 +138,7 @@ export const NavBar: React.FC = () => {
                 {navData.ctaButton.label}
               </Button>
             </div>
-            
+
             {/* Mobile Nav Button */}
             <button
               className="xl:hidden p-2 text-gray-700 hover:text-[#9b1d20] focus:outline-none"
@@ -167,7 +186,7 @@ export const NavBar: React.FC = () => {
                 )}
               </div>
             ))}
-            
+
             <div className="pt-4 pb-2 px-4 sm:hidden">
               <Button
                 variant="primary"

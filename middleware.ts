@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         getAll() {
@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
+            request.cookies.set(name, value),
           );
           response = NextResponse.next({
             request: {
@@ -26,23 +26,28 @@ export async function middleware(request: NextRequest) {
             },
           });
           cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options)
+            response.cookies.set(name, value, options),
           );
         },
       },
-    }
+    },
   );
 
   // 1. Get User Session
   // Use getUser() but catch the "already used" error to prevent crashes during HMR/Race conditions
   let user = null;
   try {
-    const { data: { user: u }, error: userError } = await supabase.auth.getUser();
-    
+    const {
+      data: { user: u },
+      error: userError,
+    } = await supabase.auth.getUser();
+
     if (userError) {
       if (userError.message.includes("refresh_token_already_used")) {
         // Token was rotated by another concurrent request. Get current session instead.
-        const { data: { session } } = await supabase.auth.getSession();
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
         user = session?.user || null;
       }
     } else {
@@ -58,7 +63,8 @@ export async function middleware(request: NextRequest) {
   if (pathname.startsWith("/admin")) {
     // Skip protection for login page
     if (pathname === "/admin/login") {
-      if (user) return NextResponse.redirect(new URL("/admin/dashboard", request.url));
+      if (user)
+        return NextResponse.redirect(new URL("/admin/dashboard", request.url));
       return response;
     }
 

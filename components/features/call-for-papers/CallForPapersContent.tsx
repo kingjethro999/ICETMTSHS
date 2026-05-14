@@ -9,7 +9,9 @@ export const CallForPapersContent: React.FC = () => {
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    console.log("[CallForPapersContent] Initializing call-for-papers feature...");
+    console.log(
+      "[CallForPapersContent] Initializing call-for-papers feature...",
+    );
     try {
       // Logic for data loading or external resource checking
       console.log("[CallForPapersContent] UI data initialized");
@@ -51,9 +53,10 @@ export const CallForPapersContent: React.FC = () => {
         {/* Main Content & Invitation */}
         <div className="lg:col-span-8 space-y-10">
           <section className="relative pl-8 border-l-4 border-[#e26955]">
-            <p className="text-xl text-gray-700 leading-relaxed font-medium">
-              Researchers and practitioners are invited to submit their abstracts
-              for the upcoming 1st International Conference (ICSHSM 2026).
+            <p className="text-xl text-gray-700 leading-relaxed font-medium text-justify">
+              Researchers and practitioners are invited to submit their
+              abstracts for the upcoming 1st International Conference (ICSHSM
+              2026).
             </p>
             <div className="mt-4 flex items-center gap-3 text-sm font-semibold text-[#e26955] uppercase tracking-widest">
               <CheckCircle2 size={18} />
@@ -64,7 +67,9 @@ export const CallForPapersContent: React.FC = () => {
           {/* Key Dates Grid */}
           <section className="space-y-6">
             <h2 className="text-2xl font-bold flex items-center gap-3 text-gray-900 lowercase">
-              <span className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 text-sm">01</span>
+              <span className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 text-sm">
+                01
+              </span>
               critical submission deadlines
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -94,8 +99,8 @@ export const CallForPapersContent: React.FC = () => {
                 <div className="prose prose-sm text-gray-600 space-y-4 max-w-none">
                   <p>
                     Extended versions of selected papers presented at the
-                    conference will be published in relevant indexed journals after
-                    a rigorous peer-review process.
+                    conference will be published in relevant indexed journals
+                    after a rigorous peer-review process.
                   </p>
                   <div className="flex items-start gap-3 p-4 bg-orange-50/50 rounded-xl border border-orange-100 text-[#e26955]">
                     <Info size={20} className="mt-0.5 flex-shrink-0" />
@@ -113,24 +118,30 @@ export const CallForPapersContent: React.FC = () => {
 
         {/* Sidebar / Quick Checklist */}
         <aside className="lg:col-span-4 lg:sticky lg:top-24 h-fit space-y-6">
-            <div className="p-6 bg-white border border-gray-100 shadow-sm rounded-2xl">
-                <h4 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">
-                    Quick Checklist
-                </h4>
-                <ul className="space-y-4">
-                    {[
-                        "Abstract Word Limit: 250-300 words",
-                        "File Type: MS Word (.doc, .docx)",
-                        "Double-blind review process",
-                      "Plagiarism check required"
-                    ].map((item) => (
-                        <li key={item} className="flex items-start gap-3 text-gray-700 text-sm font-medium">
-                            <CheckCircle2 size={18} className="text-green-500 mt-0.5 flex-shrink-0" />
-                            {item}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+          <div className="p-6 bg-white border border-gray-100 shadow-sm rounded-2xl">
+            <h4 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">
+              Quick Checklist
+            </h4>
+            <ul className="space-y-4">
+              {[
+                "Abstract Word Limit: 250-300 words",
+                "File Type: MS Word (.doc, .docx)",
+                "Double-blind review process",
+                "Plagiarism check required",
+              ].map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-3 text-gray-700 text-sm font-medium"
+                >
+                  <CheckCircle2
+                    size={18}
+                    className="text-green-500 mt-0.5 flex-shrink-0"
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
         </aside>
       </div>
     </div>

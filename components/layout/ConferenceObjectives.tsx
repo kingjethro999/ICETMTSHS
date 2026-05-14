@@ -52,7 +52,7 @@ export const ConferenceObjectives: React.FC = () => {
               <div className="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center text-[#9b1d20] mb-6 group-hover:scale-110 transition-transform">
                 <obj.icon size={28} />
               </div>
-              <p className="text-gray-700 font-bold leading-relaxed">
+              <p className="text-gray-700 font-bold leading-relaxed text-justify">
                 {obj.text}
               </p>
             </motion.div>

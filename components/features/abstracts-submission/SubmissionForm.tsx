@@ -27,7 +27,9 @@ export const SubmissionForm: React.FC = () => {
     abstract?: File;
   }>({});
 
-  const [errors, setErrors] = useState<Partial<Record<keyof FormData | "abstract", string>>>({});
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof FormData | "abstract", string>>
+  >({});
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -51,28 +53,34 @@ export const SubmissionForm: React.FC = () => {
     const newErrors: Partial<Record<keyof FormData | "abstract", string>> = {};
     if (!formData.fullName) newErrors.fullName = "Full Name is required";
     if (!formData.email) newErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Invalid email format";
-    if (!formData.affiliation) newErrors.affiliation = "Affiliation is required";
-    if (!formData.abstractTitle) newErrors.abstractTitle = "Abstract Title is required";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "Invalid email format";
+    if (!formData.affiliation)
+      newErrors.affiliation = "Affiliation is required";
+    if (!formData.abstractTitle)
+      newErrors.abstractTitle = "Abstract Title is required";
     if (!formData.mobileNo) newErrors.mobileNo = "Mobile No. is required";
-    if (!files.abstract) newErrors.abstract = "Please upload your abstract file";
+    if (!files.abstract)
+      newErrors.abstract = "Please upload your abstract file";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage(null);
-    
+
     if (validate()) {
       setStatus("loading");
       const formDataToSend = new FormData(e.currentTarget);
       formDataToSend.append("SubmissionType", "Presenter");
-      
+
       // Map component field names to what server action expects
       formDataToSend.set("FullName", formData.fullName);
       formDataToSend.set("Email", formData.email);
@@ -80,11 +88,11 @@ export const SubmissionForm: React.FC = () => {
       formDataToSend.set("AbstractTitle", formData.abstractTitle);
       formDataToSend.set("MobileNo", formData.mobileNo);
       formDataToSend.set("AttendanceMode", "Online"); // Auto-set for virtual conference
-      
+
       // Files are already in the form since they are input type="file"
-      
+
       const result = await submitAbstract(formDataToSend);
-      
+
       if (result.success) {
         setStatus("success");
       } else {
@@ -96,17 +104,60 @@ export const SubmissionForm: React.FC = () => {
 
   if (status === "success") {
     return (
-      <div className="bg-emerald-50 text-emerald-800 p-12 rounded-3xl text-center space-y-6 mt-12 animate-in zoom-in-95 duration-500 shadow-[0_20px_50px_rgba(16,185,129,0.05)]">
-        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm">
-          <CheckCircle2 className="w-8 h-8 text-emerald-500" />
+      <div className="bg-emerald-50 text-emerald-800 p-12 rounded-3xl border border-emerald-100 text-center space-y-6 mt-12 animate-in zoom-in-95 duration-500 shadow-[0_20px_50px_rgba(16,185,129,0.05)]">
+        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm">
+          <CheckCircle2 className="w-10 h-10 text-emerald-500" />
         </div>
-        <h3 className="text-2xl font-black mb-2 tracking-tight">Abstract Submitted Successfully!</h3>
-        <p className="max-w-md mx-auto text-sm font-medium leading-relaxed">
-          Your abstract has been queued for peer review. You will receive an email confirmation shortly.
-        </p>
-        <Button 
-          className="mt-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-3 rounded-2xl" 
-          onClick={() => setStatus("idle")}
+        <h3 className="text-3xl font-black mb-2 tracking-tight">
+          Abstract Submitted Successfully!
+        </h3>
+        <div className="max-w-md mx-auto space-y-4">
+          <p className="text-sm font-medium leading-relaxed opacity-80">
+            Thank you for submitting your abstract to ICSHSM 2026. Your
+            submission has been received and queued for peer review.
+          </p>
+          <div className="bg-white/60 backdrop-blur-sm p-4 rounded-2xl border border-emerald-200">
+            <p className="text-xs font-black uppercase tracking-widest text-emerald-900 mb-2">
+              What's Next?
+            </p>
+            <ul className="text-xs text-left space-y-2 text-emerald-800">
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-500 mt-0.5">✓</span>
+                <span>A confirmation email has been sent to your inbox</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-500 mt-0.5">✓</span>
+                <span>Your abstract will undergo double-blind peer review</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-500 mt-0.5">✓</span>
+                <span>
+                  You'll receive review results within 7-10 business days
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-500 mt-0.5">✓</span>
+                <span>
+                  Accepted abstracts will receive presentation guidelines
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <Button
+          className="mt-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-10 py-4 rounded-2xl transition-all hover:scale-105"
+          onClick={() => {
+            setStatus("idle");
+            setFormData({
+              fullName: "",
+              email: "",
+              affiliation: "",
+              abstractTitle: "",
+              mobileNo: "",
+              attendingAs: "Oral Presenter",
+            });
+            setFiles({});
+          }}
         >
           Submit Another Abstract
         </Button>
@@ -136,7 +187,9 @@ export const SubmissionForm: React.FC = () => {
                   onChange={handleInputChange}
                   className="w-full px-5 py-3 rounded-2xl bg-gray-50 focus:bg-white focus:ring-4 focus:ring-[#9b1d20]/5 focus:shadow-inner outline-none transition-all placeholder:opacity-30"
                 />
-                {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>}
+                {errors.fullName && (
+                  <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>
+                )}
               </div>
 
               <div>
@@ -150,7 +203,9 @@ export const SubmissionForm: React.FC = () => {
                   onChange={handleInputChange}
                   className="w-full px-5 py-3 rounded-2xl bg-gray-50 focus:bg-white focus:ring-4 focus:ring-[#9b1d20]/5 focus:shadow-inner outline-none transition-all placeholder:opacity-30"
                 />
-                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                {errors.email && (
+                  <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                )}
               </div>
 
               <div>
@@ -164,7 +219,9 @@ export const SubmissionForm: React.FC = () => {
                   onChange={handleInputChange}
                   className="w-full px-5 py-3 rounded-2xl bg-gray-50 focus:bg-white focus:ring-4 focus:ring-[#9b1d20]/5 focus:shadow-inner outline-none transition-all placeholder:opacity-30"
                 />
-                {errors.mobileNo && <p className="text-red-500 text-xs mt-1">{errors.mobileNo}</p>}
+                {errors.mobileNo && (
+                  <p className="text-red-500 text-xs mt-1">{errors.mobileNo}</p>
+                )}
               </div>
             </div>
 
@@ -172,7 +229,8 @@ export const SubmissionForm: React.FC = () => {
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Affiliation (LUC /Other) <span className="text-red-500">*</span>
+                  Affiliation (LUC /Other){" "}
+                  <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -182,7 +240,11 @@ export const SubmissionForm: React.FC = () => {
                   placeholder="e.g. Lincoln University College"
                   className="w-full px-5 py-3 rounded-2xl bg-gray-50 focus:bg-white focus:ring-4 focus:ring-[#9b1d20]/5 focus:shadow-inner outline-none transition-all placeholder:opacity-30"
                 />
-                {errors.affiliation && <p className="text-red-500 text-xs mt-1">{errors.affiliation}</p>}
+                {errors.affiliation && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.affiliation}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -196,12 +258,17 @@ export const SubmissionForm: React.FC = () => {
                   onChange={handleInputChange}
                   className="w-full px-5 py-3 rounded-2xl bg-gray-50 focus:bg-white focus:ring-4 focus:ring-[#9b1d20]/5 focus:shadow-inner outline-none transition-all placeholder:opacity-30"
                 />
-                {errors.abstractTitle && <p className="text-red-500 text-xs mt-1">{errors.abstractTitle}</p>}
+                {errors.abstractTitle && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.abstractTitle}
+                  </p>
+                )}
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Upload your abstract here <span className="text-red-500">*</span>
+                  Upload your abstract here{" "}
+                  <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="file"
@@ -210,7 +277,9 @@ export const SubmissionForm: React.FC = () => {
                   accept=".doc,.docx"
                   className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-[#9b1d20] hover:file:bg-red-100 transition-all cursor-pointer"
                 />
-                {errors.abstract && <p className="text-red-500 text-xs mt-1">{errors.abstract}</p>}
+                {errors.abstract && (
+                  <p className="text-red-500 text-xs mt-1">{errors.abstract}</p>
+                )}
               </div>
             </div>
           </div>
@@ -219,30 +288,47 @@ export const SubmissionForm: React.FC = () => {
 
           <div className="bg-red-50/50 p-6 rounded-[2rem]">
             <div className="text-[#9b1d20] font-bold mb-2 flex items-center gap-2">
-              Submission Guidelines & Deadlines<span className="text-red-500">*</span>
+              Submission Guidelines & Deadlines
+              <span className="text-red-500">*</span>
             </div>
             <div className="text-xs text-gray-600 leading-relaxed space-y-3">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                 <div className="bg-white/50 p-4 rounded-2xl">
-                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Abstract Deadline</p>
-                    <p className="font-black text-gray-900">30th August 2026</p>
-                 </div>
-                 <div className="bg-white/50 p-4 rounded-2xl">
-                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Full Paper Submission</p>
-                    <p className="font-black text-gray-900">31st September 2026</p>
-                 </div>
+                <div className="bg-white/50 p-4 rounded-2xl">
+                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
+                    Abstract Deadline
+                  </p>
+                  <p className="font-black text-gray-900">30th August 2026</p>
+                </div>
+                <div className="bg-white/50 p-4 rounded-2xl">
+                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
+                    Full Paper Submission
+                  </p>
+                  <p className="font-black text-gray-900">
+                    31st September 2026
+                  </p>
+                </div>
               </div>
-              <p>Your abstract will undergo a double-blind peer review by the conference committee within two weeks from its receipt.</p>
-              <p>Please make sure you complete the abstract using the official template (Template download will be sent via email upon receipt).</p>
-              <p className="font-semibold text-[#9b1d20]">Only Microsoft Word (.doc, .docx) file types are allowed to be uploaded.</p>
+              <p>
+                Your abstract will undergo a double-blind peer review by the
+                conference committee within two weeks from its receipt.
+              </p>
+              <p>
+                Please make sure you complete the abstract using the official
+                template (Template download will be sent via email upon
+                receipt).
+              </p>
+              <p className="font-semibold text-[#9b1d20]">
+                Only Microsoft Word (.doc, .docx) file types are allowed to be
+                uploaded.
+              </p>
             </div>
           </div>
 
           {status === "error" && (
-             <div className="mt-6 p-6 bg-red-50 rounded-[2rem] flex items-center gap-3 text-red-700 text-sm font-bold animate-in slide-in-from-top-2">
-                <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                {errorMessage}
-             </div>
+            <div className="mt-6 p-6 bg-red-50 rounded-[2rem] flex items-center gap-3 text-red-700 text-sm font-bold animate-in slide-in-from-top-2">
+              <AlertCircle className="w-5 h-5 flex-shrink-0" />
+              {errorMessage}
+            </div>
           )}
 
           <div className="flex justify-end mt-8">
@@ -256,7 +342,9 @@ export const SubmissionForm: React.FC = () => {
                   <Loader2 className="w-4 h-4 animate-spin" />
                   Transmitting...
                 </div>
-              ) : "Submit Abstract"}
+              ) : (
+                "Submit Abstract"
+              )}
             </Button>
           </div>
         </form>

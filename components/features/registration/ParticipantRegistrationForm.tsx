@@ -1,18 +1,32 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { Send, UploadCloud, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import {
+  Send,
+  UploadCloud,
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+} from "lucide-react";
 import { submitRegistration } from "@/lib/actions/public";
 
 export const ParticipantRegistrationForm: React.FC = () => {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [selectedFiles, setSelectedFiles] = useState<{ id?: string, payment?: string }>({});
+  const [selectedFiles, setSelectedFiles] = useState<{
+    id?: string;
+    payment?: string;
+  }>({});
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'id' | 'payment') => {
+  const handleFileChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: "id" | "payment",
+  ) => {
     const file = e.target.files?.[0];
     if (file) {
-      setSelectedFiles(prev => ({ ...prev, [type]: file.name }));
+      setSelectedFiles((prev) => ({ ...prev, [type]: file.name }));
     }
   };
 
@@ -20,17 +34,19 @@ export const ParticipantRegistrationForm: React.FC = () => {
     e.preventDefault();
     setStatus("loading");
     setErrorMessage(null);
-    
+
     const formData = new FormData(e.currentTarget);
     formData.append("SubmissionType", "Participant");
     formData.append("AttendanceMode", "Online"); // Auto-set for virtual conference
 
     const result = await submitRegistration(formData);
-    
+
     if (result.success) {
       setStatus("success");
     } else {
-      setErrorMessage(result.error || "Submission failed. Please check your data.");
+      setErrorMessage(
+        result.error || "Submission failed. Please check your data.",
+      );
       setStatus("error");
     }
   };
@@ -41,13 +57,41 @@ export const ParticipantRegistrationForm: React.FC = () => {
         <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm">
           <CheckCircle2 className="w-10 h-10 text-emerald-500" />
         </div>
-        <h3 className="text-3xl font-black mb-2 tracking-tight">Registration Submitted!</h3>
-        <p className="max-w-md mx-auto text-sm font-medium leading-relaxed opacity-80">
-          Thank you for registering. We will review your payment proof and send a confirmation email shortly.
-        </p>
-        <Button 
-          className="mt-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-10 py-4 rounded-2xl transition-all hover:scale-105" 
-          variant="secondary" 
+        <h3 className="text-3xl font-black mb-2 tracking-tight">
+          Registration Submitted Successfully!
+        </h3>
+        <div className="max-w-md mx-auto space-y-4">
+          <p className="text-sm font-medium leading-relaxed opacity-80">
+            Thank you for registering for ICSHSM 2026. We have received your
+            registration and payment proof.
+          </p>
+          <div className="bg-white/60 backdrop-blur-sm p-4 rounded-2xl border border-emerald-200">
+            <p className="text-xs font-black uppercase tracking-widest text-emerald-900 mb-2">
+              What's Next?
+            </p>
+            <ul className="text-xs text-left space-y-2 text-emerald-800">
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-500 mt-0.5">✓</span>
+                <span>A confirmation email has been sent to your inbox</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-500 mt-0.5">✓</span>
+                <span>
+                  Our team will verify your payment within 24-48 hours
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-500 mt-0.5">✓</span>
+                <span>
+                  You'll receive conference access details once approved
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <Button
+          className="mt-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-10 py-4 rounded-2xl transition-all hover:scale-105"
+          variant="secondary"
           onClick={() => {
             setStatus("idle");
             setSelectedFiles({});
@@ -65,7 +109,9 @@ export const ParticipantRegistrationForm: React.FC = () => {
         <div className="bg-red-50 border border-red-100 text-red-800 p-5 rounded-2xl mb-8 flex items-center gap-4 animate-in slide-in-from-top-4">
           <AlertCircle className="w-6 h-6 text-red-500" />
           <div>
-            <p className="font-black text-xs uppercase tracking-widest">Submission Error</p>
+            <p className="font-black text-xs uppercase tracking-widest">
+              Submission Error
+            </p>
             <p className="text-sm font-bold opacity-80">{errorMessage}</p>
           </div>
         </div>
@@ -78,63 +124,93 @@ export const ParticipantRegistrationForm: React.FC = () => {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-sm">
           <div className="flex flex-col gap-2">
-            <span className="w-6 h-6 rounded-full bg-[#9b1d20] text-white flex items-center justify-center font-black text-xs">1</span>
+            <span className="w-6 h-6 rounded-full bg-[#9b1d20] text-white flex items-center justify-center font-black text-xs">
+              1
+            </span>
             <span className="font-bold text-gray-900">TRANSFER</span>
-            <span className="text-gray-500 text-xs">Pay registration fee to the official Zenith Bank account.</span>
+            <span className="text-gray-500 text-xs">
+              Pay registration fee to the official Zenith Bank account.
+            </span>
           </div>
           <div className="flex flex-col gap-2">
-            <span className="w-6 h-6 rounded-full bg-gray-900 text-white flex items-center justify-center font-black text-xs">2</span>
+            <span className="w-6 h-6 rounded-full bg-gray-900 text-white flex items-center justify-center font-black text-xs">
+              2
+            </span>
             <span className="font-bold text-gray-900">CAPTURE</span>
-            <span className="text-gray-500 text-xs">Take a screenshot or photo of your successful payment receipt.</span>
+            <span className="text-gray-500 text-xs">
+              Take a screenshot or photo of your successful payment receipt.
+            </span>
           </div>
           <div className="flex flex-col gap-2">
-            <span className="w-6 h-6 rounded-full bg-gray-900 text-white flex items-center justify-center font-black text-xs">3</span>
+            <span className="w-6 h-6 rounded-full bg-gray-900 text-white flex items-center justify-center font-black text-xs">
+              3
+            </span>
             <span className="font-bold text-gray-900">REGISTER</span>
-            <span className="text-gray-500 text-xs">Upload the receipt below and complete this form.</span>
+            <span className="text-gray-500 text-xs">
+              Upload the receipt below and complete this form.
+            </span>
           </div>
         </div>
-        
+
         <div className="bg-[#9b1d20] text-white p-6 rounded-[2rem] shadow-xl relative overflow-hidden group/card max-w-lg mx-auto">
-           <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover/card:bg-white/20 transition-all duration-700" />
-           <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-60 mb-2">Official Payment Account</p>
-           <h3 className="text-xl font-black mb-4 tracking-tight">Zenith Bank</h3>
-           <div className="space-y-3">
-              <div className="flex justify-between items-center opacity-80 pb-2 border-b border-white/10">
-                 <span className="text-[10px] font-bold uppercase opacity-60">Account Name</span>
-                 <span className="font-black text-sm uppercase">Lincoln R&D Business LTD</span>
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover/card:bg-white/20 transition-all duration-700" />
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-60 mb-2">
+            Official Payment Account
+          </p>
+          <h3 className="text-xl font-black mb-4 tracking-tight">
+            Zenith Bank
+          </h3>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center opacity-80 pb-2 border-b border-white/10">
+              <span className="text-[10px] font-bold uppercase opacity-60">
+                Account Name
+              </span>
+              <span className="font-black text-sm uppercase">
+                Lincoln R&D Business LTD
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                navigator.clipboard.writeText("1311031521");
+                const btn = document.getElementById("copy-btn-reg");
+                if (btn) {
+                  const originalText = btn.innerHTML;
+                  btn.innerHTML = "COPIED!";
+                  setTimeout(() => {
+                    btn.innerHTML = originalText;
+                  }, 2000);
+                }
+              }}
+              className="w-full flex justify-between items-center bg-white/10 p-3 rounded-2xl backdrop-blur-sm hover:bg-white/20 transition-all active:scale-[0.98] group/btn"
+            >
+              <div className="text-left">
+                <span className="text-[10px] font-bold uppercase opacity-60 block">
+                  Account Number
+                </span>
+                <span className="text-xl font-black tracking-tighter">
+                  1311031521
+                </span>
               </div>
-               <button 
-                type="button"
-                onClick={() => {
-                  navigator.clipboard.writeText("1311031521");
-                  const btn = document.getElementById('copy-btn-reg');
-                  if (btn) {
-                    const originalText = btn.innerHTML;
-                    btn.innerHTML = 'COPIED!';
-                    setTimeout(() => { btn.innerHTML = originalText; }, 2000);
-                  }
-                }}
-                className="w-full flex justify-between items-center bg-white/10 p-3 rounded-2xl backdrop-blur-sm hover:bg-white/20 transition-all active:scale-[0.98] group/btn"
+              <div
+                id="copy-btn-reg"
+                className="bg-white/10 px-3 py-1.5 rounded-xl text-[10px] font-black tracking-widest uppercase transition-all group-hover/btn:bg-white group-hover/btn:text-[#9b1d20]"
               >
-                 <div className="text-left">
-                   <span className="text-[10px] font-bold uppercase opacity-60 block">Account Number</span>
-                   <span className="text-xl font-black tracking-tighter">1311031521</span>
-                 </div>
-                 <div id="copy-btn-reg" className="bg-white/10 px-3 py-1.5 rounded-xl text-[10px] font-black tracking-widest uppercase transition-all group-hover/btn:bg-white group-hover/btn:text-[#9b1d20]">
-                    Copy
-                 </div>
-              </button>
-           </div>
+                Copy
+              </div>
+            </button>
+          </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-        
         {/* Left Column */}
         <div className="space-y-6">
-          
           <div className="space-y-2">
-            <label htmlFor="FullName" className="text-sm font-bold text-gray-800">
+            <label
+              htmlFor="FullName"
+              className="text-sm font-bold text-gray-800"
+            >
               Full Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -149,8 +225,12 @@ export const ParticipantRegistrationForm: React.FC = () => {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="EmailAlt" className="text-sm font-bold text-gray-800">
-              Alternative Email <span className="text-gray-400 font-normal">(optional)</span>
+            <label
+              htmlFor="EmailAlt"
+              className="text-sm font-bold text-gray-800"
+            >
+              Alternative Email{" "}
+              <span className="text-gray-400 font-normal">(optional)</span>
             </label>
             <input
               type="email"
@@ -164,11 +244,15 @@ export const ParticipantRegistrationForm: React.FC = () => {
 
           <div className="space-y-2 p-5 border border-dashed border-[#9b1d20]/30 rounded-xl bg-[#9b1d20]/5">
             <div className="mb-2">
-              <label htmlFor="PaymentProofUpload" className="text-sm font-bold text-[#9b1d20] block">
+              <label
+                htmlFor="PaymentProofUpload"
+                className="text-sm font-bold text-[#9b1d20] block"
+              >
                 Payment Proof Upload <span className="text-red-500">*</span>
               </label>
               <span className="text-xs text-gray-600 font-medium">
-                Please include your receipt for registration as participant or presenter (Allowed: PDF/JPG/PNG)
+                Please include your receipt for registration as participant or
+                presenter (Allowed: PDF/JPG/PNG)
               </span>
             </div>
             <div className="relative">
@@ -178,7 +262,7 @@ export const ParticipantRegistrationForm: React.FC = () => {
                 name="PaymentProofUpload"
                 accept=".pdf,.png,.jpg,.jpeg"
                 required
-                onChange={(e) => handleFileChange(e, 'payment')}
+                onChange={(e) => handleFileChange(e, "payment")}
                 className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#9b1d20]/10 file:text-[#9b1d20] hover:file:bg-[#9b1d20]/20 transition-all cursor-pointer"
               />
               {selectedFiles.payment && (
@@ -189,14 +273,15 @@ export const ParticipantRegistrationForm: React.FC = () => {
               )}
             </div>
           </div>
-
         </div>
 
         {/* Right Column */}
         <div className="space-y-6">
-          
           <div className="space-y-2">
-            <label htmlFor="Affiliation" className="text-sm font-bold text-gray-800">
+            <label
+              htmlFor="Affiliation"
+              className="text-sm font-bold text-gray-800"
+            >
               Affiliation (LUC/Other) <span className="text-red-500">*</span>
             </label>
             <input
@@ -226,7 +311,10 @@ export const ParticipantRegistrationForm: React.FC = () => {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="MobileNo" className="text-sm font-bold text-gray-800">
+            <label
+              htmlFor="MobileNo"
+              className="text-sm font-bold text-gray-800"
+            >
               Mobile No (Contact Number) <span className="text-red-500">*</span>
             </label>
             <input
@@ -241,8 +329,12 @@ export const ParticipantRegistrationForm: React.FC = () => {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="AbstractTitle" className="text-sm font-bold text-gray-800">
-              Title of Abstract <span className="text-gray-400 font-normal">(optional)</span>
+            <label
+              htmlFor="AbstractTitle"
+              className="text-sm font-bold text-gray-800"
+            >
+              Title of Abstract{" "}
+              <span className="text-gray-400 font-normal">(optional)</span>
             </label>
             <input
               type="text"
@@ -261,7 +353,9 @@ export const ParticipantRegistrationForm: React.FC = () => {
               className="w-full md:w-auto min-w-[200px] justify-center gap-2"
               disabled={status === "loading"}
             >
-              {status === "loading" ? "Submitting..." : (
+              {status === "loading" ? (
+                "Submitting..."
+              ) : (
                 <>
                   Submit Form
                   <Send size={18} />
@@ -269,7 +363,6 @@ export const ParticipantRegistrationForm: React.FC = () => {
               )}
             </Button>
           </div>
-          
         </div>
       </div>
     </form>
